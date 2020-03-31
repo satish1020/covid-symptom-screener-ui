@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Home = props => {
+export const Home = () => {
   return <div>Home page</div>;
 };

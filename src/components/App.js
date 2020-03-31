@@ -7,7 +7,7 @@ import { Home } from "./Home";
 import { SignUp } from "./SignUp";
 
 import { theme } from "../theme";
-console.log({ theme });
+
 const useStyles = makeStyles(({ spacing }) => ({
   app: {
     padding: spacing(2)
