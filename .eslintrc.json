@@ -1,0 +1,16 @@
+{
+  "extends": ["react-app"],
+  "rules": {
+    "additional-rule": "warn"
+  },
+  "rules": {
+    "no-console": ["warn", { "allow": ["warn", "error"] }], //change this depending on your development needs
+    // add or override additional rules here: https://eslint.org/docs/rules/
+    "no-debugger": 1,
+    "no-unused-vars": [
+      "warn",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
+    "react-hooks/exhaustive-deps": "error"
+  }
+}
