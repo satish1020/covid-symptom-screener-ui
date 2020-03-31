@@ -49,5 +49,8 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5"
+  },
+  "engines" : {
+    "node" : ">=0.12"
   }
 }
