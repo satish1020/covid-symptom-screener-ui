@@ -1,9 +1,7 @@
 {
   "extends": ["react-app"],
   "rules": {
-    "additional-rule": "warn"
-  },
-  "rules": {
+    "additional-rule": "warn",
     "no-console": ["warn", { "allow": ["warn", "error"] }], //change this depending on your development needs
     // add or override additional rules here: https://eslint.org/docs/rules/
     "no-debugger": 1,
