@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-import { Home } from './Home'
-import { SignUp } from './SignUp'
-
+import { HomePage } from './HomePage'
+import { AuthorizationPage } from './AuthorizationPage'
+import { LocationPage } from './LocationPage'
+import { RegistrationPage } from './RegistrationPage'
+import { MeasurementPage } from './MeasurementPage'
 import { theme } from '../theme'
 
 const useStyles = makeStyles(({ spacing }) => ({
@@ -24,10 +26,19 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/">
-              <Home />
+              <HomePage />
             </Route>
-            <Route path="/signup">
-              <SignUp />
+            <Route path="/registration">
+              <RegistrationPage />
+            </Route>
+            <Route path="/authorization">
+              <AuthorizationPage />
+            </Route>
+            <Route path="/location">
+              <LocationPage />
+            </Route>
+            <Route path="/measurement">
+              <MeasurementPage />
             </Route>
           </Switch>
         </Router>
