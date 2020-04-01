@@ -1,0 +1,103 @@
+# Uses secrets:
+# - GCP_PROJECT_ID
+# - GKE_KEY
+
+name: Build and Deploy to GKE
+on:
+  push:
+    branches:
+      - master
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GITHUB_SHA: ${{ github.sha }}
+  GKE_ZONE_STG: --zone us-central1-c
+  GKE_ZONE_PROD: --region us-central1
+  REGISTRY_HOSTNAME: gcr.io
+  IMAGE: kelvin-ui
+  IMAGE_TAG: latest
+  DEPLOYMENT_NAME: kelvin-ui
+
+jobs:
+  build-ui:
+    name: Build and deploy service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set env to staging
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        run: |
+          echo "::set-env name=ENV::stg"
+          echo "::set-env name=GKE_CLUSTER::cluster-stg"
+          echo "::set-env name=GKE_ZONE_OR_REGION::$GKE_ZONE_STG"
+          echo "::set-env name=IMAGE_TAG::latest"
+          export IMAGE_PATH="$REGISTRY_HOSTNAME"/"$GCP_PROJECT_ID"/"$IMAGE":"$IMAGE_TAG"
+          echo "::set-env name=IMAGE_PATH::$IMAGE_PATH"
+          echo "::set-env name=REACT_APP_GOOGLE_API_KEY::${{ secrets.MAPS_API_KEY_STG }}"
+      - name: Set env to production
+        if: github.event_name == 'release'
+        run: |
+          echo "::set-env name=ENV::prod"
+          echo "::set-env name=GKE_CLUSTER::cluster-prod"
+          echo "::set-env name=GKE_ZONE_OR_REGION::$GKE_ZONE_PROD"
+          echo "::set-env name=IMAGE_TAG::`$(echo $GITHUB_REF | cut -d / -f 3)`"
+          export IMAGE_PATH="$REGISTRY_HOSTNAME"/"$GCP_PROJECT_ID"/"$IMAGE":"$IMAGE_TAG"
+          echo "::set-env name=IMAGE_PATH::$IMAGE_PATH"
+          echo "::set-env name=REACT_APP_GOOGLE_API_KEY::${{ secrets.MAPS_API_KEY_PROD }}"
+
+      - name: Set up Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Run yarn build
+        env:
+          CI: true
+        run: |
+          yarn --frozen-lockfile
+          yarn lint
+          yarn test -- --watchAll=false
+          yarn build --if-present
+
+      # Need step here to copy build artifacts to docker folder
+      - name: Copy build artifacts
+        run: |
+          mv build docker/.
+
+      - name: Set up GCloud environment
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '285.0.0'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GKE_KEY }}
+          export_default_credentials: true
+
+      - name: Configure Docker, build container and publish it
+        run: |
+          # Set up docker to authenticate
+          gcloud auth configure-docker
+          cd docker
+          export IMAGE_PATH="$REGISTRY_HOSTNAME"/"$GCP_PROJECT_ID"/"$IMAGE":"$IMAGE_TAG"
+          echo "Building image and pushing to $IMAGE_PATH"
+          docker build -t $IMAGE_PATH .
+          docker push $REGISTRY_HOSTNAME/$GCP_PROJECT_ID/$IMAGE:$IMAGE_TAG
+          cd ..
+
+      - name: Inject settings into deploy-kelvin-ui.yml
+        uses: falnyr/replace-env-vars-action@v1.2.1
+        env:
+          IMAGE_PATH: ${{ env.IMAGE_PATH }}
+          DEPLOY_VAR: ${{ github.sha }}
+        with:
+          filename: deployment/deploy-kelvin-ui.yml
+
+      - name: Deploy image to GKE
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER $GKE_ZONE_OR_REGION --project $GCP_PROJECT_ID
+          cd deployment
+          kubectl get svc | grep -q kelvin-ui || kubectl create -f svc-kelvin-ui.yml
+          kubectl apply -f deploy-kelvin-ui.yml
+          kubectl get services -o wide

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kelvin-ui
+  labels:
+    app: kelvin-ui
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: kelvin-ui
+  template:
+    metadata:
+      labels:
+        app: kelvin-ui
+        version: v1.0
+    spec:
+      containers:
+        - name: kelvin-ui
+          image: __IMAGE_PATH__
+          imagePullPolicy: Always
+          resources:
+            # keep request = limit to keep this container in guaranteed class
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          env:
+            - name: DEPLOY_FORCE
+              value: __DEPLOY_VAR__
+          ports:
+            - containerPort: 80
+              protocol: TCP
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            timeoutSeconds: 10

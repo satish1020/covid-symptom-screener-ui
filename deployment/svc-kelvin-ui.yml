@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kelvin-ui
+spec:
+  # label keys and values that must match in order to receive traffic for this service
+  selector:
+    app: kelvin-ui
+  ports:
+    # the port that this service should serve on
+    - name: http-api
+      port: 80
+      targetPort: 80
+      protocol: TCP
+  type: NodePort

@@ -2,30 +2,29 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Node.js CI
-
 on:
-  push:
-    branches: [master]
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn --frozen-lockfile
-      - run: yarn lint
-      - run: yarn test -- --watchAll=false
-      - run: yarn build --if-present
+          node-version: 12.x
+
+      - name: Run yarn build
         env:
           CI: true
+        run: |
+          yarn --frozen-lockfile
+          yarn lint
+          yarn test -- --watchAll=false
+          yarn build --if-present
