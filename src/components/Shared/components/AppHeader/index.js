@@ -1,9 +1,10 @@
 import React from 'react'
-import logo from '../../../../logo-h-whi_rgb.png'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
+import { GoogleLogout } from 'react-google-login';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -19,21 +20,34 @@ const useStyles = makeStyles(() => ({
   logo: {
     width: '200px',
   },
+  logout: {
+    textTransform: 'none'
+  }
 }))
 
-function AppHeader() {
+export const AppHeader = props => {
   const classes = useStyles()
+
+  const logout = () => {
+    props.setIsLoggedIn(false)
+  }
   return (
     <div className={classes.root}>
       <AppBar elevation={0} position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <img
-            src={logo}
+            src={process.env.PUBLIC_URL + '/logo-h-whi_rgb.png'}
             alt="MN Department of Health"
             className={classes.logo}
           />
-          {/* If (authenticated) else null */}
-          <Button color="inherit">Logout</Button>
+          {props.isLoggedIn && 
+            <GoogleLogout
+            clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
+            render={(renderProps) => (
+              <Button color="inherit" className={classes.logout} onClick={renderProps.onClick}>Logout</Button>
+            )}
+            onLogoutSuccess={logout}
+            />}
         </Toolbar>
       </AppBar>
     </div>
@@ -41,3 +55,8 @@ function AppHeader() {
 }
 
 export default AppHeader
+
+AppHeader.propTypes = {
+  setIsLoggedIn: PropTypes.func,
+  isLoggedIn: PropTypes.bool
+}
