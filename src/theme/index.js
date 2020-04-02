@@ -1,6 +1,49 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 export const theme = createMuiTheme({
+    overrides: {
+        MuiInput: {
+            formControl: {
+              "label + &": {
+                marginTop: "1.5rem"
+              }
+            }
+        },
+        MuiInputLabel: { 
+          root: {
+            color: '#333333',
+            textAlign: 'left',
+            lineHeight: 'normal',
+            fontWeight: '400',
+            fontSize: '1rem',
+            position: 'relative',
+            top: 'auto',
+            left: 'auto'
+          },
+          formControl: {
+            transform: 'none'
+          },
+          animated: {
+              transition: 'none'
+          },
+          shrink: {
+              transform: 'none'
+          }
+        },
+        MuiInputBase: { 
+            root: {
+              padding: '7px',
+              border: '1px solid black',
+              borderRadius: '3px',
+            }
+        },
+        MuiFormHelperText: {
+            root: {
+                fontSize: '1rem',
+                color: '#000'
+            }
+        }
+    },
     typography: {
         fontFamily: [
             '"Open Sans"','"Helvetica Neue"','Helvetica','Arial','sans-serif'

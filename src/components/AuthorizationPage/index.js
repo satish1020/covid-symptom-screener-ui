@@ -26,7 +26,7 @@ export const AuthorizationPage = () => {
           <PageTitle title="Sign in" />
           <Typography>A leader within your company should have provided you with an authorization code to continue.</Typography>
         </div>
-        <TextField className={classes.authCode} id="org-auth-code" label="Authorization Code" variant="outlined" InputLabelProps={{shrink: true}} value={orgId} onChange={handleOrgChange}/>
+        <TextField className={classes.authCode} id="org-auth-code" label="Authorization Code"  value={orgId} onChange={handleOrgChange} />
         <Button className={classes.submitButton} fullWidth variant="contained" onClick={submitOrgAuth}>Submit</Button>
         <Button className={classes.cancelButton} fullWidth variant="contained" onClick={cancelAuth}>Cancel</Button>
     </div>);
