@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -13,19 +13,21 @@ import { MeasurementPage } from './MeasurementPage'
 
 import { theme } from '../theme'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(({ spacing }) => ({
   app: {
-    ...theme.footerBar,
+    // ...theme.footerBar, TODO: do we need this?
     height: '100vh',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   body: {
-    margin: '0 auto'
+    margin: '0 auto',
+    paddingRight: spacing(1),
+    paddingLeft: spacing(1),
   },
 }))
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const classes = useStyles()
 
   //TODO is logged in and is org set are different and route to different places
@@ -37,10 +39,17 @@ function App() {
         <div className={classes.body}>
           <Router>
             <Switch>
-              <Route exact path="/" 
-              render ={() => {
-                return isLoggedIn ? <AuthorizationPage /> : <HomePage setIsLoggedIn={setIsLoggedIn}/>;
-              }} />
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return isLoggedIn ? (
+                    <AuthorizationPage />
+                  ) : (
+                    <HomePage setIsLoggedIn={setIsLoggedIn} />
+                  )
+                }}
+              />
               <Route path="/registration">
                 <RegistrationPage />
               </Route>
