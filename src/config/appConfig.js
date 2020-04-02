@@ -1,19 +1,14 @@
-import axios from 'axios'
-import localAppConfig from './localConfiguration'
-export function appConfigGenerator(isLocal = false) {
-  let appConfig
-  if (isLocal) {
-    appConfig = Promise.resolve(localAppConfig)
-  } else { // TODO : implement other environments
-    appConfig = axios.get('/app_environment').then(response => {
-      return response.data
-    })
-  }
+const stageDomain = 'https://stg.temperature-aggregator.app'
+const prodDomain = `https://temperature-aggregator.app`
 
-  return appConfig
+const stage = {
+  organizations: `${stageDomain}/organizations`,
+  measurements: `${stageDomain}/measurements`,
 }
 
-const appConfig = appConfigGenerator(process.env.REACT_APP_LOCAL)
-export default function() {
-  return appConfig
+const prod = {
+  organizations: `${prodDomain}/organizations`,
+  measurements: `${prodDomain}/measurements`,
 }
+
+export const appConfig = process.env.NODE_ENV === 'production' ? prod : stage
