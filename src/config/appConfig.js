@@ -1,14 +1,12 @@
-const stageDomain = 'https://stg.temperature-aggregator.app'
-const prodDomain = `https://temperature-aggregator.app`
+const stageDomain = 'https://stg.temperature-aggregator.app/temperatures/v1'
+const prodDomain = `https://temperature-aggregator.app/temperatures/v1`
 
 const stage = {
-  organizations: `${stageDomain}/organizations`,
-  measurements: `${stageDomain}/measurements`,
+  kelvinApi: stageDomain,
 }
 
 const prod = {
-  organizations: `${prodDomain}/organizations`,
-  measurements: `${prodDomain}/measurements`,
+  kelvinApi: prodDomain,
 }
 
 export const appConfig = process.env.NODE_ENV === 'production' ? prod : stage
