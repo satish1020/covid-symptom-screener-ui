@@ -2,26 +2,29 @@ import React from 'react'
 import { Button, Grid, Link, Typography, makeStyles } from "@material-ui/core";
 import { GoogleLogin } from 'react-google-login';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   pageContainer: {
-    height: '100vh'
+    height: '100vh',
+    background: 'linear-gradient(180deg, #9bcbeb 7%, #ffffff 90%, rgba(255,255,255,0) 3%)'
   },
   splashImage: {
-    width: '80vw',
+    width: '30vw',
     maxWidth: '500px'
   },
   appTitle: {
+    ...theme.titleText,
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: '1.5rem',
-    marginTop: '3rem'
+    marginTop: '3rem',
+    marginBottom: '3rem'
   },
   signInButton: {
-    border: '1px solid black',
-    backgroundColor: '#fff',
-    textTransform: 'none',
+    ...theme.buttonPrimary,
     marginTop: '3rem',
     marginBottom: '3rem',
+  },
+  subtext: {
+    textAlign: 'center',
+    fontSize: '0.9rem'
   }
 }));
 
@@ -38,7 +41,8 @@ export const HomePage = props => {
   return (
     <Grid className={classes.pageContainer} container direction="column" justify="center" alignItems="center">
         <img className={classes.splashImage} src={process.env.PUBLIC_URL + '/mdh-logo.png'} alt="Logo" />
-        <Typography className={classes.appTitle}>Temperature Measurement Application</Typography>
+        <Typography className={classes.appTitle}>Temperature Aggregation</Typography>
+        <Typography className={classes.subtext}>Minnesota cares about your workplace, so we've made a simple way to continue the fight against COVID-19 by taking temperatures across the state as people return.</Typography>
         <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
           render={renderProps => (

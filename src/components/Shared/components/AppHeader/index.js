@@ -11,16 +11,26 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
   appBar: {
-    backgroundColor: '#00315a',
+    height: '46px',
+    backgroundColor: '#003865',
   },
   toolbar: {
     display: 'flex',
     justifyContent: 'space-between',
   },
   logo: {
-    width: '200px',
+    width: '170px',
+    marginBottom: '5px'
   },
   logout: {
+    height: '40px',
+    borderRadius: '20px',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    boxSizing: 'border-box',
+    color: '#feffff',
+    textAlign: 'center',
+    lineHeight: 'normal',
+    fontSize: '.8rem',
     textTransform: 'none'
   }
 }))
@@ -44,7 +54,7 @@ export const AppHeader = props => {
             <GoogleLogout
             clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
             render={(renderProps) => (
-              <Button color="inherit" className={classes.logout} onClick={renderProps.onClick}>Logout</Button>
+              <Button color="inherit" className={classes.logout} onClick={renderProps.onClick}>Sign Out</Button>
             )}
             onLogoutSuccess={logout}
             />}

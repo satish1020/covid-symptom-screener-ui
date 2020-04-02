@@ -15,12 +15,12 @@ import { theme } from '../theme'
 
 const useStyles = makeStyles(() => ({
   app: {
-    borderBottom: '20px solid #1a2d44',
-    height: '100vh'
+    ...theme.footerBar,
+    height: '100vh',
+    backgroundColor: '#fff'
   },
   body: {
-    margin: '0 auto',
-    maxWidth: '500px',
+    margin: '0 auto'
   },
 }))
 
