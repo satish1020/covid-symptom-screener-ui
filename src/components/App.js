@@ -11,12 +11,16 @@ import { LocationPage } from './LocationPage'
 import { RegistrationPage } from './RegistrationPage'
 import { MeasurementPage } from './MeasurementPage'
 
+import { configureHttpInterceptor } from '../services/httpInterceptor'
+
 import {
   CoordinateContextProvider,
   defaultCoordinates,
 } from './Shared/context/coordinateContext'
 
 import { theme } from '../theme'
+
+configureHttpInterceptor()
 
 const useStyles = makeStyles(({ spacing }) => ({
   app: {

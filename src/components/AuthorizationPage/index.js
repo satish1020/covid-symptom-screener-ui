@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { Button, TextField, Typography, makeStyles } from '@material-ui/core'
 import PageTitle from '../Shared/components/PageTitle'
-//import getOrganization from "../../services/getOrganization";
 
 export const AuthorizationPage = () => {
   const classes = useStyles()
   const [orgId, setOrgId] = useState('')
   const submitOrgAuth = async () => {
     try {
-      //const orgGetResp = await getOrganization(orgId)
+      //const orgGetResp = a
     } catch {
       //console.log('something\'s gone wrong');
     }

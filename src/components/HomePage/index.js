@@ -2,6 +2,8 @@ import React from 'react'
 import { Button, Grid, Link, Typography, makeStyles } from '@material-ui/core'
 import { GoogleLogin } from 'react-google-login'
 
+import { ACCESS_TOKEN } from '../../constants'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '0 -16px',
@@ -42,7 +44,7 @@ export const HomePage = (props) => {
 
   const responseGoogle = (response) => {
     if (response.accessToken) {
-      localStorage.setItem('access_token', response.accessToken)
+      localStorage.setItem(ACCESS_TOKEN, response.accessToken)
       props.setIsLoggedIn(true)
     }
   }

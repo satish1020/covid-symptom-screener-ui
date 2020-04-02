@@ -1,5 +1,5 @@
-import appConfig from '../config/appConfig'
 import axios from 'axios'
+import { appConfig } from '../config/appConfig'
 
 export async function getOrganizationForAuthCode(authorizationCode) {
   const requestConfig = {

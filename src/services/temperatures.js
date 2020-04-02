@@ -1,5 +1,5 @@
 import axios from 'axios'
-import appConfig from '../config/appConfig'
+import { appConfig } from '../config/appConfig'
 
 export async function submitTemperatures(authorizationCode, temperatures) {
   const response = await axios.post(
