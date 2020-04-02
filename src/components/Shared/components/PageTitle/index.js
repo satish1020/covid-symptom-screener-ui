@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => {
       borderBottom: '2px solid #ccc',
     },
     title: {
-      ...theme.titleText
+      ...theme.titleText,
     },
   }
 })

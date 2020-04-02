@@ -11,6 +11,11 @@ import { LocationPage } from './LocationPage'
 import { RegistrationPage } from './RegistrationPage'
 import { MeasurementPage } from './MeasurementPage'
 
+import {
+  CoordinateContextProvider,
+  defaultCoordinates,
+} from './Shared/context/coordinateContext'
+
 import { theme } from '../theme'
 
 const useStyles = makeStyles(({ spacing }) => ({
@@ -21,8 +26,8 @@ const useStyles = makeStyles(({ spacing }) => ({
   },
   body: {
     margin: '0 auto',
-    paddingRight: spacing(1),
-    paddingLeft: spacing(1),
+    paddingRight: spacing(2),
+    paddingLeft: spacing(2),
   },
 }))
 
@@ -34,38 +39,43 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className={classes.app} data-testid="app">
-        <AppHeader setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
-        <div className={classes.body}>
-          <Router>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => {
-                  return isLoggedIn ? (
-                    <AuthorizationPage />
-                  ) : (
-                    <HomePage setIsLoggedIn={setIsLoggedIn} />
-                  )
-                }}
-              />
-              <Route path="/registration">
-                <RegistrationPage />
-              </Route>
-              <Route path="/authorization">
-                <AuthorizationPage />
-              </Route>
-              <Route path="/location">
-                <LocationPage />
-              </Route>
-              <Route path="/measurement">
-                <MeasurementPage />
-              </Route>
-            </Switch>
-          </Router>
+      <CoordinateContextProvider
+        longitude={defaultCoordinates.longitude}
+        latitude={defaultCoordinates.latitude}
+      >
+        <div className={classes.app} data-testid="app">
+          <AppHeader setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+          <div className={classes.body}>
+            <Router>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => {
+                    return isLoggedIn ? (
+                      <AuthorizationPage />
+                    ) : (
+                      <HomePage setIsLoggedIn={setIsLoggedIn} />
+                    )
+                  }}
+                />
+                <Route path="/registration">
+                  <RegistrationPage />
+                </Route>
+                <Route path="/authorization">
+                  <AuthorizationPage />
+                </Route>
+                <Route path="/location">
+                  <LocationPage />
+                </Route>
+                <Route path="/measurement">
+                  <MeasurementPage />
+                </Route>
+              </Switch>
+            </Router>
+          </div>
         </div>
-      </div>
+      </CoordinateContextProvider>
     </ThemeProvider>
   )
 }

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
-import { GoogleLogout } from 'react-google-login';
+import { GoogleLogout } from 'react-google-login'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
   },
   logo: {
     width: '170px',
-    marginBottom: '5px'
+    marginBottom: '5px',
   },
   logout: {
     height: '40px',
@@ -31,11 +31,11 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     lineHeight: 'normal',
     fontSize: '.8rem',
-    textTransform: 'none'
-  }
+    textTransform: 'none',
+  },
 }))
 
-export const AppHeader = props => {
+export const AppHeader = (props) => {
   const classes = useStyles()
 
   const logout = () => {
@@ -50,14 +50,21 @@ export const AppHeader = props => {
             alt="MN Department of Health"
             className={classes.logo}
           />
-          {props.isLoggedIn && 
+          {props.isLoggedIn && (
             <GoogleLogout
-            clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
-            render={(renderProps) => (
-              <Button color="inherit" className={classes.logout} onClick={renderProps.onClick}>Sign Out</Button>
-            )}
-            onLogoutSuccess={logout}
-            />}
+              clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
+              render={(renderProps) => (
+                <Button
+                  color="inherit"
+                  className={classes.logout}
+                  onClick={renderProps.onClick}
+                >
+                  Sign Out
+                </Button>
+              )}
+              onLogoutSuccess={logout}
+            />
+          )}
         </Toolbar>
       </AppBar>
     </div>
@@ -68,5 +75,5 @@ export default AppHeader
 
 AppHeader.propTypes = {
   setIsLoggedIn: PropTypes.func,
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
 }

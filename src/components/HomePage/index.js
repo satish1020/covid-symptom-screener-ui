@@ -4,14 +4,14 @@ import { GoogleLogin } from 'react-google-login'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: '0 -8px',
+    margin: '0 -16px',
     height: '100vh',
     background:
       'linear-gradient(180deg, #9bcbeb 7%, #ffffff 90%, rgba(255,255,255,0) 3%)',
   },
   container: {
     height: '100vh',
-    padding: `0 8px`,
+    padding: `0 16px`,
   },
   splashImage: {
     width: '30vw',
