@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import AppHeader from './Shared/components/AppHeader'
 
 import { HomePage } from './HomePage'
+import { AdminSignInPage } from './AdminSignInPage'
 import { AuthorizationPage } from './AuthorizationPage'
 import { LocationPage } from './LocationPage'
 import { RegistrationPage } from './RegistrationPage'
@@ -38,6 +39,10 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // eslint-disable-next-line no-unused-vars
+  const [isAdmin, setIsAdmin] = useState(false) // TODO: figure out how to set a users status as admin
+
   const classes = useStyles()
 
   //TODO is logged in and is org set are different and route to different places
@@ -52,38 +57,46 @@ function App() {
           <AppHeader setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
           <div className={classes.body}>
             <Router>
-            {!isLoggedIn && (
-              <Switch>
-                <Route exact path="/registration">
-                  <RegistrationPage />
-                </Route>
-                <Route exact path="/">
-                  <HomePage setIsLoggedIn={setIsLoggedIn} />
-                </Route>
-              </Switch>
-            )}
-            {isLoggedIn && (
-              <Switch>
-                <Route exact path="/">
-                  <AuthorizationPage />
-                </Route>
-                <Route path="/registration">
-                  <RegistrationPage />
-                </Route>
-                <Route exact path="/authorization">
-                  <AuthorizationPage />
-                </Route>
-                <Route exact path="/location">
-                  <LocationPage />
-                </Route>
-                <Route exact path="/measurement">
-                  <MeasurementPage />
-                </Route>
-                <Route path="/management">
-                  <ManagementPage />
-                </Route>
-              </Switch>
-            )}
+              {!isLoggedIn && (
+                <Switch>
+                  <Route exact path="/">
+                    <HomePage setIsLoggedIn={setIsLoggedIn} />
+                  </Route>
+                  <Route exact path="/admin">
+                    <AdminSignInPage setIsLoggedIn={setIsLoggedIn} />
+                  </Route>
+                  <Route exact path="/registration">
+                    <RegistrationPage />
+                  </Route>
+                </Switch>
+              )}
+              {isLoggedIn && (
+                <Switch>
+                  {isAdmin && (
+                    <Route exact path="/admin/management">
+                      <ManagementPage />
+                    </Route>
+                  )}
+                  <Route exact path="/">
+                    <AuthorizationPage />
+                  </Route>
+                  <Route path="/registration">
+                    <RegistrationPage />
+                  </Route>
+                  <Route exact path="/authorization">
+                    <AuthorizationPage />
+                  </Route>
+                  <Route exact path="/location">
+                    <LocationPage />
+                  </Route>
+                  <Route exact path="/measurement">
+                    <MeasurementPage />
+                  </Route>
+                  <Route path="/management">
+                    <ManagementPage />
+                  </Route>
+                </Switch>
+              )}
             </Router>
           </div>
         </div>

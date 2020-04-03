@@ -64,7 +64,7 @@ export const HomePage = (props) => {
           alt="Logo"
         />
         <Typography className={classes.appTitle}>
-          Temperature Aggregation
+          Temperature Aggregator
         </Typography>
         <Typography className={classes.subtext}>
           Minnesota cares about your workplace, so we've made a simple way to
