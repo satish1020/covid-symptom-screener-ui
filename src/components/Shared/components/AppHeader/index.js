@@ -74,6 +74,6 @@ export const AppHeader = (props) => {
 export default AppHeader
 
 AppHeader.propTypes = {
-  setIsLoggedIn: PropTypes.func,
-  isLoggedIn: PropTypes.bool,
+  setIsLoggedIn: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 }
