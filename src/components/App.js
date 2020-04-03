@@ -10,6 +10,7 @@ import { AuthorizationPage } from './AuthorizationPage'
 import { LocationPage } from './LocationPage'
 import { RegistrationPage } from './RegistrationPage'
 import { MeasurementPage } from './MeasurementPage'
+import { ManagementPage } from './ManagementPage'
 
 import { configureHttpInterceptor } from '../services/httpInterceptor'
 
@@ -74,6 +75,9 @@ function App() {
                 </Route>
                 <Route path="/measurement">
                   <MeasurementPage />
+                </Route>
+                <Route path="/management">
+                  <ManagementPage />
                 </Route>
               </Switch>
             </Router>

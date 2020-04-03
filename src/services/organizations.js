@@ -20,6 +20,19 @@ export async function getOrganizationForAuthCode(authorizationCode) {
   return null
 }
 
+export async function getOrganizations() {
+
+  const response = await axios.get(
+    `${appConfig.kelvinApi}/organizations`
+  )
+
+  if (response.data.results) {
+    return response.data.results
+  }
+
+  return null
+}
+
 export async function createOrganization(organization) {
   const response = await axios.post(
     `${appConfig.kelvinApi}/organizations`,
