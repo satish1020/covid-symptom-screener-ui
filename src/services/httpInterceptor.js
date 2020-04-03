@@ -1,14 +1,14 @@
 import axios from 'axios'
 
-import { ACCESS_TOKEN } from '../constants'
+import { TOKEN_ID } from '../constants'
 
 export const configureHttpInterceptor = () => {
   axios.interceptors.request.use(
     (config) => {
-      let accessToken = window.localStorage.getItem(ACCESS_TOKEN)
+      let tokenId = window.localStorage.getItem(TOKEN_ID)
 
-      if (accessToken) {
-        config.headers['Authorization'] = `Bearer ${accessToken}`
+      if (tokenId) {
+        config.headers['Authorization'] = tokenId
       }
 
       config.headers['Content-Type'] = 'application/json'

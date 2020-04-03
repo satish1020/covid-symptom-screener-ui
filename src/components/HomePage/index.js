@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Grid, Link, Typography, makeStyles } from '@material-ui/core'
 import { GoogleLogin } from 'react-google-login'
 
-import { ACCESS_TOKEN } from '../../constants'
+import { TOKEN_ID } from '../../constants'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,8 +43,8 @@ export const HomePage = (props) => {
   const classes = useStyles()
 
   const responseGoogle = (response) => {
-    if (response.accessToken) {
-      localStorage.setItem(ACCESS_TOKEN, response.accessToken)
+    if (response.tokenId) {
+      localStorage.setItem(TOKEN_ID, response.tokenId)
       props.setIsLoggedIn(true)
     }
   }
