@@ -52,34 +52,38 @@ function App() {
           <AppHeader setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
           <div className={classes.body}>
             <Router>
+            {!isLoggedIn && (
               <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={() => {
-                    return isLoggedIn ? (
-                      <AuthorizationPage />
-                    ) : (
-                      <HomePage setIsLoggedIn={setIsLoggedIn} />
-                    )
-                  }}
-                />
+                <Route exact path="/registration">
+                  <RegistrationPage />
+                </Route>
+                <Route exact path="/">
+                  <HomePage setIsLoggedIn={setIsLoggedIn} />
+                </Route>
+              </Switch>
+            )}
+            {isLoggedIn && (
+              <Switch>
+                <Route exact path="/">
+                  <AuthorizationPage />
+                </Route>
                 <Route path="/registration">
                   <RegistrationPage />
                 </Route>
-                <Route path="/authorization">
+                <Route exact path="/authorization">
                   <AuthorizationPage />
                 </Route>
-                <Route path="/location">
+                <Route exact path="/location">
                   <LocationPage />
                 </Route>
-                <Route path="/measurement">
+                <Route exact path="/measurement">
                   <MeasurementPage />
                 </Route>
                 <Route path="/management">
                   <ManagementPage />
                 </Route>
               </Switch>
+            )}
             </Router>
           </div>
         </div>

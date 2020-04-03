@@ -13,11 +13,11 @@ export async function getOrganizationForAuthCode(authorizationCode) {
     requestConfig
   )
 
-  if (response.data.results) {
+  if (response.data.results?.length !== 0) {
     return response.data.results[0]
   }
 
-  return null
+  return undefined
 }
 
 export async function getOrganizations() {
