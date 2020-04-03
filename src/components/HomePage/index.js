@@ -36,16 +36,8 @@ const useStyles = makeStyles((theme) => ({
   subtext: {
     textAlign: 'center',
     fontSize: '0.9rem',
-  },
-  linkBar: {
-    display: 'inherit',
-  },
-  divider: {
-    marginLeft: '20px',
-    marginRight: '20px',
   }
 }))
-
 
 //TODO contact link needs a place with content
 export const HomePage = (props) => {
@@ -90,18 +82,14 @@ export const HomePage = (props) => {
               onClick={renderProps.onClick}
               disabled={renderProps.disabled}
             >
-              Measurer Sign In
+              Sign In
             </Button>
           )}
           buttonText="Login"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
         />
-        <div className={classes.linkBar}>
-          <Link className={classes.pageLink} href="registration">Register your Organization</Link> 
-          <Typography className={classes.divider}> | </Typography>
-          <Link className={classes.pageLink} href="https://www.health.state.mn.us/diseases/coronavirus/index.html">Contact</Link>
-        </div>
+        <Link href="https://www.health.state.mn.us/diseases/coronavirus/index.html">Contact</Link>
       </Grid>
     </div>
   )

@@ -84,7 +84,7 @@ function App() {
                     <RegistrationPage />
                   </Route>
                   <Route exact path="/authorization">
-                    <AuthorizationPage />
+                    <AuthorizationPage isAdmin={isAdmin}/>
                   </Route>
                   <Route exact path="/location">
                     <LocationPage />

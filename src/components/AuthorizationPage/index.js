@@ -3,7 +3,7 @@ import { Button, Grid, Link, TextField, Typography, makeStyles } from '@material
 import PageTitle from '../Shared/components/PageTitle'
 import {getOrganizationForAuthCode} from "../../services/organizations";
 
-export const AuthorizationPage = () => {
+export const AuthorizationPage = (props) => {
   const classes = useStyles()
   const [authCode, setAuthCode] = useState('')
   const [helperText, setHelperText] = useState('')
@@ -52,6 +52,9 @@ export const AuthorizationPage = () => {
       >
         Submit
       </Button>
+      
+      <Link href="/registration" className={classes.pageLink}>Organization Registration</Link>
+      {props.isAdmin && <Link href="/management" className={classes.pageLink}>Admin Portal</Link>}     
     </Grid>
   )
 }
@@ -77,7 +80,8 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: 338,
     },
   },
-  cancelButton: {
-    ...theme.buttonSecondary,
+  pageLink: {
+    marginTop: '1rem',
+    marginBottom: '1rem'
   },
 }))
