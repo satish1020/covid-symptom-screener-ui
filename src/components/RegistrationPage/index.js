@@ -38,9 +38,8 @@ export const RegistrationPage = () => {
       <Box paddingLeft={2} paddingRight={2}>
         <Box marginBottom={2}>
           <Typography gutterBottom>
-            Check your email to successfully login to your accout. Please
-            complete all fields as the main point of contact and submit the
-            form.
+            Please complete all fields as the main point of contact and submit
+            the form.
           </Typography>
         </Box>
         <RegistrationForm setIsRegistered={setRegistered} />
