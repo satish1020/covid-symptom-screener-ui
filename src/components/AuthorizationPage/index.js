@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Grid, TextField, Typography, makeStyles } from '@material-ui/core'
+import { Button, Grid, Link, TextField, Typography, makeStyles } from '@material-ui/core'
 import PageTitle from '../Shared/components/PageTitle'
 import {getOrganizationForAuthCode} from "../../services/organizations";
 
@@ -34,7 +34,7 @@ export const AuthorizationPage = () => {
         <PageTitle title="Sign in" />
         <Typography>
           A leader within your company should have provided you with an
-          authorization code to continue.
+          authorization code to continue. If you do not have an authorization code, you may need to complete <Link href="/registration">Organization Registration</Link>.
         </Typography>
       </div>
       <TextField

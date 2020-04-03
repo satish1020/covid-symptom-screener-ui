@@ -37,8 +37,17 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontSize: '0.9rem',
   },
+  linkBar: {
+    display: 'inherit',
+  },
+  divider: {
+    marginLeft: '20px',
+    marginRight: '20px',
+  }
 }))
 
+
+//TODO contact link needs a place with content
 export const HomePage = (props) => {
   const classes = useStyles()
 
@@ -88,7 +97,11 @@ export const HomePage = (props) => {
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
         />
-        <Link href="registration">Organization Registration</Link>
+        <div className={classes.linkBar}>
+          <Link className={classes.pageLink} href="registration">Register your Organization</Link> 
+          <Typography className={classes.divider}> | </Typography>
+          <Link className={classes.pageLink} href="https://www.health.state.mn.us/diseases/coronavirus/index.html">Contact</Link>
+        </div>
       </Grid>
     </div>
   )
