@@ -38,10 +38,10 @@ const useStyles = makeStyles(({ spacing }) => ({
 }))
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
 
   // eslint-disable-next-line no-unused-vars
-  const [isAdmin, setIsAdmin] = useState(false) // TODO: figure out how to set a users status as admin
+  const [isAdmin, setIsAdmin] = useState(true) // TODO: figure out how to set a users status as admin
 
   const classes = useStyles()
 
@@ -84,7 +84,7 @@ function App() {
                     <RegistrationPage />
                   </Route>
                   <Route exact path="/authorization">
-                    <AuthorizationPage isAdmin={isAdmin}/>
+                    <AuthorizationPage isAdmin={isAdmin} />
                   </Route>
                   <Route exact path="/location">
                     <LocationPage />

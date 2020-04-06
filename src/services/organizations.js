@@ -1,4 +1,6 @@
 import axios from 'axios'
+
+import { getPageable } from './pageable'
 import { appConfig } from '../config/appConfig'
 
 export async function getOrganizationForAuthCode(authorizationCode) {
@@ -20,17 +22,30 @@ export async function getOrganizationForAuthCode(authorizationCode) {
   return undefined
 }
 
-export async function getOrganizations() {
+export async function getOrganizations({
+  perPage = 20,
+  page = 0,
+  orderBy,
+  direction,
+}) {
+  const params = getPageable({ perPage, page, orderBy, direction })
 
+  const config = {
+    params,
+  }
   const response = await axios.get(
-    `${appConfig.kelvinApi}/organizations`
+    `${appConfig.kelvinApi}/organizations`,
+    config
   )
 
-  if (response.data.results) {
-    return response.data.results
+  if (response.data) {
+    return {
+      results: response.data.results,
+      total: response.data.total,
+    }
   }
 
-  return null
+  return undefined
 }
 
 export async function createOrganization(organization) {

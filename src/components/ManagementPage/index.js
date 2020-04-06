@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { AppBar, Tabs, Tab, makeStyles } from '@material-ui/core'
-import { OrganizationsSection } from './organizations'
-import { TabPanel } from './tabPanel'
+import { OrganizationsSection } from './components/OrganizationsSection'
+import { MeasurementsSection } from './components/MeasurementsSection'
+import { TabPanel } from './components/tabPanel'
 
 export const ManagementPage = () => {
   const classes = useStyles()
@@ -13,7 +14,7 @@ export const ManagementPage = () => {
   return (
     <div className={classes.root}>
       <div className={classes.pageContainer}>
-        <AppBar className={classes.appBar} position="static" elevation="0">
+        <AppBar className={classes.appBar} position="static" elevation={0}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -27,7 +28,7 @@ export const ManagementPage = () => {
           <OrganizationsSection />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          TODO: Measurements table
+          <MeasurementsSection />
         </TabPanel>
       </div>
     </div>
