@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import { GoogleLogout } from 'react-google-login'
 import { UserContext } from '../../context/userContext'
+import { TOKEN_ID } from '../../../../constants'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -41,6 +42,7 @@ export const AppHeader = () => {
 
   const logout = () => {
     userActions.setLoggedIn(false)
+    localStorage.removeItem(TOKEN_ID)
   }
   return (
     <div className={classes.root}>
@@ -57,6 +59,7 @@ export const AppHeader = () => {
               render={(renderProps) => (
                 <Button
                   color="inherit"
+                  data-testid="sign-out-button"
                   className={classes.logout}
                   onClick={renderProps.onClick}
                 >

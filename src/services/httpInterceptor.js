@@ -25,7 +25,13 @@ export const configureHttpInterceptor = () => {
       return response
     },
     (error) => {
-      // TODO: handle 401 statuses
+      if (error.response) {
+        const code = error.response.status
+        if (code === 401) {
+          window.localStorage.removeItem(TOKEN_ID)
+          window.location.assign('/')
+        }
+      }
       return Promise.reject(error)
     }
   )
