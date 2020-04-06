@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { appConfig } from '../config/appConfig'
+import { ROLE_ADMIN } from '../constants'
 
 /**
  * UserRole domain
@@ -11,4 +12,8 @@ import { appConfig } from '../config/appConfig'
 export async function currentUserRole() {
   const response = await axios.get(`${appConfig.kelvinApi}/user-roles/current`)
   return response.data
+}
+
+export function isRoleAdmin(userRole) {
+  return userRole && userRole.role === ROLE_ADMIN
 }

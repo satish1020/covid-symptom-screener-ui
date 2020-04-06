@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import { GoogleLogout } from 'react-google-login'
+import { UserContext } from '../../context/userContext'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -35,11 +35,12 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-export const AppHeader = (props) => {
+export const AppHeader = () => {
   const classes = useStyles()
+  const [userState, userActions] = useContext(UserContext)
 
   const logout = () => {
-    props.setIsLoggedIn(false)
+    userActions.setLoggedIn(false)
   }
   return (
     <div className={classes.root}>
@@ -50,7 +51,7 @@ export const AppHeader = (props) => {
             alt="MN Department of Health"
             className={classes.logo}
           />
-          {props.isLoggedIn && (
+          {userState.loggedIn && (
             <GoogleLogout
               clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
               render={(renderProps) => (
@@ -72,8 +73,3 @@ export const AppHeader = (props) => {
 }
 
 export default AppHeader
-
-AppHeader.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-}

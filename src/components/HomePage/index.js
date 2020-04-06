@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Button, Grid, Link, Typography, makeStyles } from '@material-ui/core'
 import { GoogleLogin } from 'react-google-login'
 
 import { TOKEN_ID } from '../../constants'
+import { UserContext } from '../Shared/context/userContext'
+import { currentUserRole } from '../../services/users'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,18 +39,37 @@ const useStyles = makeStyles((theme) => ({
   subtext: {
     textAlign: 'center',
     fontSize: '0.9rem',
-  }
+  },
 }))
 
 //TODO contact link needs a place with content
-export const HomePage = (props) => {
+export const HomePage = () => {
   const classes = useStyles()
+  const [userState, userActions] = useContext(UserContext)
+
+  const getUserRole = async () => {
+    try {
+      const orgGetResp = await currentUserRole()
+      if (orgGetResp !== undefined) {
+        userActions.setUserRole(orgGetResp)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const responseGoogle = (response) => {
     if (response.tokenId) {
       localStorage.setItem(TOKEN_ID, response.tokenId)
-      props.setIsLoggedIn(true)
+      userActions.setLoggedIn(true)
+      getUserRole()
+    } else {
+      userActions.setLoggedIn(false)
     }
+  }
+
+  if (userState.loggedIn) {
+    return <Redirect to="/authorization" />
   }
 
   return (
@@ -89,7 +111,9 @@ export const HomePage = (props) => {
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
         />
-        <Link href="https://www.health.state.mn.us/diseases/coronavirus/index.html">Contact</Link>
+        <Link href="https://www.health.state.mn.us/diseases/coronavirus/index.html">
+          Contact
+        </Link>
       </Grid>
     </div>
   )

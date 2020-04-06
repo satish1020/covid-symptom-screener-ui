@@ -1,27 +1,40 @@
-import React, { useState } from 'react'
-import { Button, Grid, Link, TextField, Typography, makeStyles } from '@material-ui/core'
+import React, { useContext, useState } from 'react'
+import {
+  Button,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+  makeStyles,
+} from '@material-ui/core'
 import PageTitle from '../Shared/components/PageTitle'
-import {getOrganizationForAuthCode} from "../../services/organizations";
+import { getOrganizationForAuthCode } from '../../services/organizations'
+import { UserContext } from '../Shared/context/userContext'
+import { isRoleAdmin } from '../../services/users'
 
-export const AuthorizationPage = (props) => {
+export const AuthorizationPage = () => {
   const classes = useStyles()
   const [authCode, setAuthCode] = useState('')
   const [helperText, setHelperText] = useState('')
+  const [userState, userActions] = useContext(UserContext)
+
   const submitOrgAuth = async () => {
     try {
       const orgGetResp = await getOrganizationForAuthCode(authCode)
       if (orgGetResp === undefined) {
         setHelperText('Invalid Authorization Code')
       } else {
-        // TODO add organization data to context, we will need org name to display, authorization_code for saving data, etc
+        userActions.setOrganization(orgGetResp)
       }
     } catch (err) {
-        console.error(err)
+      console.error(err)
     }
   }
   const handleOrgChange = (event) => {
     setAuthCode(event.target.value)
   }
+
+  const isAdmin = isRoleAdmin(userState.userRole)
 
   return (
     <Grid
@@ -29,12 +42,15 @@ export const AuthorizationPage = (props) => {
       className={classes.pageContainer}
       direction="column"
       justify="center"
-      alignItems="center">
+      alignItems="center"
+    >
       <div className={classes.textContainer}>
         <PageTitle title="Sign in" />
         <Typography>
           A leader within your company should have provided you with an
-          authorization code to continue. If you do not have an authorization code, you may need to complete <Link href="/registration">Organization Registration</Link>.
+          authorization code to continue. If you do not have an authorization
+          code, you may need to complete{' '}
+          <Link href="/registration">Organization Registration</Link>.
         </Typography>
       </div>
       <TextField
@@ -52,9 +68,15 @@ export const AuthorizationPage = (props) => {
       >
         Submit
       </Button>
-      
-      <Link href="/registration" className={classes.pageLink}>Organization Registration</Link>
-      {props.isAdmin && <Link href="/management" className={classes.pageLink}>Admin Portal</Link>}     
+
+      <Link href="/registration" className={classes.pageLink}>
+        Organization Registration
+      </Link>
+      {isAdmin && (
+        <Link href="/management" className={classes.pageLink}>
+          Admin Portal
+        </Link>
+      )}
     </Grid>
   )
 }
@@ -82,6 +104,6 @@ const useStyles = makeStyles((theme) => ({
   },
   pageLink: {
     marginTop: '1rem',
-    marginBottom: '1rem'
+    marginBottom: '1rem',
   },
 }))
