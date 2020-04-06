@@ -16,6 +16,7 @@ describe('OrganizationsSection', () => {
         contact_job_title: 'Doctor',
         contact_email: 'test@email.com',
         contact_phone: '(111) 111-1111',
+        sector: 'sector',
         approval_status: 'APPLIED',
       },
     ]

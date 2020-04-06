@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Grid } from '@material-ui/core'
 import { SectionTitle } from './SectionTitle'
 
 import { EnhancedTable } from '../../Shared/components/EnhancedTable'
@@ -61,7 +62,11 @@ export const MeasurementsSection = () => {
 
   return (
     <div>
-      <SectionTitle total={totalMeasurements} title="Measurements" />
+      <Grid container spacing={2} justify="flex-end" alignItems="center">
+        <Grid item xs={12}>
+          <SectionTitle total={totalMeasurements} title="Measurements" />
+        </Grid>
+      </Grid>
       <EnhancedTable
         data={measurements}
         fieldList={fieldList}

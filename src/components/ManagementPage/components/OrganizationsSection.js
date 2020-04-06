@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
+  Grid,
   FormControl,
   InputLabel,
   Select,
@@ -51,6 +52,11 @@ export const OrganizationsSection = () => {
     {
       key: 'org_name',
       label: 'Organization',
+      hasSort: true,
+    },
+    {
+      key: 'sector',
+      label: 'Sector',
       hasSort: true,
     },
     {
@@ -113,26 +119,30 @@ export const OrganizationsSection = () => {
 
   return (
     <div>
-      <div className={classes.flexRoot}>
-        <SectionTitle total={totalOrgs} title="Organizations" />
-        <FormControl className={classes.status}>
-          <InputLabel id="application-status">Application Status</InputLabel>
-          <Select
-            displayEmpty
-            labelId="application-status"
-            id="status-menu"
-            onChange={handleChange}
-            value={status}
-          >
-            <MenuItem value="">All</MenuItem>
-            {APPROVAL_STATUSES.map((item) => (
-              <MenuItem key={item.value} value={item.value}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+      <Grid container spacing={2} justify="flex-end" alignItems="center">
+        <Grid item xs={12} sm={9}>
+          <SectionTitle total={totalOrgs} title="Organizations" />
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <FormControl fullWidth>
+            <InputLabel id="application-status">Application Status</InputLabel>
+            <Select
+              displayEmpty
+              labelId="application-status"
+              id="status-menu"
+              onChange={handleChange}
+              value={status}
+            >
+              <MenuItem value="">All</MenuItem>
+              {APPROVAL_STATUSES.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
       <EnhancedTable
         data={organizations}
         fieldList={fieldList}
