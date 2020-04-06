@@ -5,8 +5,8 @@ import { appConfig } from '../config/appConfig'
 
 export async function getOrganizationForAuthCode(authorizationCode) {
   const requestConfig = {
-    params: {
-      authorization_code: authorizationCode,
+    headers: {
+      'x-organization-pin': authorizationCode,
     },
   }
 
