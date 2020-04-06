@@ -14,7 +14,7 @@ import { EnhancedTable } from '../../Shared/components/EnhancedTable'
 import { useTable } from '../../Shared/components/EnhancedTable/useTable'
 
 import { getOrganizations } from '../../../services/organizations'
-import { DIRECTION_DESC, APPROVAL_STATUES } from '../../../constants'
+import { DIRECTION_DESC, APPROVAL_STATUSES } from '../../../constants'
 
 const useStyles = makeStyles((theme) => ({
   flexRoot: {
@@ -125,7 +125,7 @@ export const OrganizationsSection = () => {
             value={status}
           >
             <MenuItem value="">All</MenuItem>
-            {APPROVAL_STATUES.map((item) => (
+            {APPROVAL_STATUSES.map((item) => (
               <MenuItem key={item.value} value={item.value}>
                 {item.name}
               </MenuItem>

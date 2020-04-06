@@ -38,6 +38,7 @@ jobs:
           echo "::set-env name=IMAGE_PATH::$IMAGE_PATH"
           echo "::set-env name=REACT_APP_GOOGLE_MAPS_API_KEY::${{ secrets.MAPS_API_KEY_STG }}"
           echo "::set-env name=REACT_APP_GOOGLE_OAUTH_CLIENT_ID::${{ secrets.CLIENT_ID_STG }}"
+          echo "::set-env name=REACT_APP_ENV::stage"
       - name: Set env to production
         if: github.event_name == 'release'
         run: |
@@ -49,7 +50,7 @@ jobs:
           echo "::set-env name=IMAGE_PATH::$IMAGE_PATH"
           echo "::set-env name=REACT_APP_GOOGLE_MAPS_API_KEY::${{ secrets.MAPS_API_KEY_PROD }}"
           echo "::set-env name=REACT_APP_GOOGLE_OAUTH_CLIENT_ID::${{ secrets.CLIENT_ID_PROD }}"
-
+          echo "::set-env name=REACT_APP_ENV::production"
       - name: Set up Node.js 12.x
         uses: actions/setup-node@v1
         with:

@@ -9,4 +9,5 @@ const prod = {
   kelvinApi: prodDomain,
 }
 
-export const appConfig = process.env.NODE_ENV === 'production' ? prod : stage
+export const appConfig =
+  process.env.REACT_APP_ENV === 'production' ? prod : stage
