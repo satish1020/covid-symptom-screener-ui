@@ -1,12 +1,22 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Typography, Button, Box } from '@material-ui/core'
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Typography,
+  Button,
+  Box,
+} from '@material-ui/core'
 import useStyles from './styles'
 import { Formik, Form } from 'formik'
 import { createOrganization } from '../../../../services/organizations'
 import { MaskedPhoneInput } from '../PhoneField'
 import { isInvalidEmail, isInvalidPhoneNumber } from './utils'
 import { useHistory } from 'react-router-dom'
+import { ORGANIZATION_TYPES } from '../../../../constants'
 
 const INITIAL_FORM_STATE = {
   org_name: '',
@@ -15,6 +25,7 @@ const INITIAL_FORM_STATE = {
   contact_job_title: '',
   contact_phone: '',
   contact_email: '',
+  sector: '',
 }
 
 const RegistrationForm = ({ setIsRegistered }) => {
@@ -80,6 +91,33 @@ const RegistrationForm = ({ setIsRegistered }) => {
                     'data-testid': 'org-name-input',
                   }}
                 />
+                <FormControl fullWidth className={classes.inputField}>
+                  <InputLabel htmlFor="sector">Industry</InputLabel>
+                  <Select
+                    name="sector"
+                    value={values.sector}
+                    onChange={handleChange}
+                    inputProps={{
+                      id: 'sector',
+                      'data-testid': 'sector',
+                    }}
+                    displayEmpty
+                    renderValue={(item) => {
+                      if (!item) return 'Make a selection'
+
+                      const name =
+                        ORGANIZATION_TYPES.find((org) => org.value === item)
+                          ?.name ?? ''
+                      return name
+                    }}
+                  >
+                    {ORGANIZATION_TYPES.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <TextField
                   name="tax_id"
                   label="MN Tax ID"

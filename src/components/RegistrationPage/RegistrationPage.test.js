@@ -5,6 +5,8 @@ import { render, wait } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { RegistrationPage } from './index'
 
+import { ORGANIZATION_TYPES } from '../../constants'
+
 describe('Registration Page', () => {
   it('should render the registration form', () => {
     const history = createMemoryHistory()
@@ -74,7 +76,7 @@ describe('Registration Page', () => {
 
   it('should fill out the form and enable the register button', async () => {
     const history = createMemoryHistory()
-    const { getByTestId } = render(
+    const { getByTestId, getByText } = render(
       <Router history={history}>
         <RegistrationPage />
       </Router>
@@ -92,6 +94,8 @@ describe('Registration Page', () => {
     await wait(() => {
       userEvent.type(orgNameInput, 'my org')
       userEvent.type(taxIdInput, '5555')
+      userEvent.click(getByText('Make a selection'))
+      userEvent.click(getByText(ORGANIZATION_TYPES[0].name))
       userEvent.type(contactNameInput, 'Jon')
       userEvent.type(contactJobTitleInput, 'Dentist')
       userEvent.type(contactPhoneInput, '555-555-55555')
