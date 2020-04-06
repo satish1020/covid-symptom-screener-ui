@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, wait, waitForElement } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { OrganizationsSection } from './OrganizationsSection'
 import { DIRECTION_DESC } from '../../../constants'
@@ -47,12 +48,15 @@ describe('OrganizationsSection', () => {
     await waitForElement(() => getByTestId('table-progress'))
     await wait(() => expect(queryByTestId('table-progress')).toBeNull())
 
-    expect(fetchOrganizationsSpy).toHaveBeenCalledWith({
-      direction: DIRECTION_DESC,
-      orderBy: 'org_name',
-      page: 0,
-      perPage: 20,
-    })
+    expect(fetchOrganizationsSpy).toHaveBeenCalledWith(
+      {
+        direction: DIRECTION_DESC,
+        orderBy: 'org_name',
+        page: 0,
+        perPage: 20,
+      },
+      { approvalStatus: '' }
+    )
 
     // table headers
     getByText('Organization')
@@ -68,5 +72,45 @@ describe('OrganizationsSection', () => {
     getByText(data[0].contact_email)
     getByText(data[0].contact_phone)
     getByText(data[0].approval_status)
+  })
+
+  it('gets organizations by approval status', async () => {
+    const {
+      queryByTestId,
+      getByTestId,
+      getByText,
+      fetchOrganizationsSpy,
+    } = setup()
+
+    await waitForElement(() => getByTestId('table-progress'))
+    await wait(() => expect(queryByTestId('table-progress')).toBeNull())
+
+    expect(fetchOrganizationsSpy).toHaveBeenCalledWith(
+      {
+        direction: DIRECTION_DESC,
+        orderBy: 'org_name',
+        page: 0,
+        perPage: 20,
+      },
+      { approvalStatus: '' }
+    )
+
+    await wait(() => {
+      userEvent.click(getByText('All'))
+    })
+
+    await wait(() => {
+      userEvent.click(getByText('Approved'))
+    })
+
+    expect(fetchOrganizationsSpy).toHaveBeenCalledWith(
+      {
+        direction: DIRECTION_DESC,
+        orderBy: 'org_name',
+        page: 0,
+        perPage: 20,
+      },
+      { approvalStatus: 'APPROVED' }
+    )
   })
 })

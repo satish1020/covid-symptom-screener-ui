@@ -22,16 +22,17 @@ export async function getOrganizationForAuthCode(authorizationCode) {
   return undefined
 }
 
-export async function getOrganizations({
-  perPage = 20,
-  page = 0,
-  orderBy,
-  direction,
-}) {
-  const params = getPageable({ perPage, page, orderBy, direction })
+export async function getOrganizations(
+  { perPage = 20, page = 0, orderBy, direction },
+  { approvalStatus }
+) {
+  const pageableParams = getPageable({ perPage, page, orderBy, direction })
 
   const config = {
-    params,
+    params: {
+      ...pageableParams,
+      ...(approvalStatus ? { approval_status: approvalStatus } : {}),
+    },
   }
   const response = await axios.get(
     `${appConfig.kelvinApi}/organizations`,

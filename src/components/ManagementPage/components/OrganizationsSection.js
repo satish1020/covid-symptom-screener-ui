@@ -1,4 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Chip,
+  makeStyles,
+} from '@material-ui/core'
 
 import { SectionTitle } from './SectionTitle'
 
@@ -6,40 +14,22 @@ import { EnhancedTable } from '../../Shared/components/EnhancedTable'
 import { useTable } from '../../Shared/components/EnhancedTable/useTable'
 
 import { getOrganizations } from '../../../services/organizations'
-import { DIRECTION_DESC } from '../../../constants'
+import { DIRECTION_DESC, APPROVAL_STATUES } from '../../../constants'
 
-const fieldList = [
-  {
-    key: 'org_name',
-    label: 'Organization',
-    hasSort: true,
+const useStyles = makeStyles((theme) => ({
+  flexRoot: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  {
-    key: 'contact_name',
-    label: 'Name',
-    hasSort: true,
+  status: {
+    width: '16%',
   },
-  {
-    key: 'contact_job_title',
-    label: 'Job Title',
-    hasSort: false,
+  chip: {
+    backgroundColor: theme.palette.primaryBlue,
+    color: '#FFF',
   },
-  {
-    key: 'contact_email',
-    label: 'Email',
-    hasSort: false,
-  },
-  {
-    key: 'contact_phone',
-    label: 'Phone',
-    hasSort: false,
-  },
-  {
-    key: 'approval_status',
-    label: 'Status',
-    hasSort: true,
-  },
-]
+}))
 
 const initialTableState = {
   page: 0,
@@ -48,20 +38,65 @@ const initialTableState = {
   orderBy: 'org_name',
 }
 export const OrganizationsSection = () => {
+  const classes = useStyles()
+
   const table = useTable(initialTableState)
 
+  const [status, setStatus] = useState('')
   const [organizations, setOrganizations] = useState([])
   const [totalOrgs, setTotalOrgs] = useState(0)
   const [pending, setPending] = useState(false)
 
-  const fetchOrgs = async ({ page, perPage, orderBy, direction }) => {
+  const fieldList = [
+    {
+      key: 'org_name',
+      label: 'Organization',
+      hasSort: true,
+    },
+    {
+      key: 'contact_name',
+      label: 'Name',
+      hasSort: true,
+    },
+    {
+      key: 'contact_job_title',
+      label: 'Job Title',
+      hasSort: false,
+    },
+    {
+      key: 'contact_email',
+      label: 'Email',
+      hasSort: false,
+    },
+    {
+      key: 'contact_phone',
+      label: 'Phone',
+      hasSort: false,
+    },
+    {
+      key: 'approval_status',
+      label: 'Status',
+      hasSort: true,
+      formatCell: (item) => (
+        <Chip className={classes.chip} label={item.approval_status} />
+      ),
+    },
+  ]
+
+  const fetchOrgs = async (
+    { page, perPage, orderBy, direction },
+    { approvalStatus }
+  ) => {
     setPending(true)
-    const { results, total } = await getOrganizations({
-      page,
-      perPage,
-      orderBy,
-      direction,
-    })
+    const { results, total } = await getOrganizations(
+      {
+        page,
+        perPage,
+        orderBy,
+        direction,
+      },
+      { approvalStatus }
+    )
 
     setTotalOrgs(total)
     setOrganizations(results)
@@ -69,13 +104,35 @@ export const OrganizationsSection = () => {
   }
 
   useEffect(() => {
-    fetchOrgs(table.state)
-  }, [table.state])
+    fetchOrgs(table.state, { approvalStatus: status })
+  }, [table.state, status])
+
+  const handleChange = (event) => {
+    setStatus(event.target.value)
+  }
 
   return (
     <div>
-      <SectionTitle total={totalOrgs} title="Organizations" />
-
+      <div className={classes.flexRoot}>
+        <SectionTitle total={totalOrgs} title="Organizations" />
+        <FormControl className={classes.status}>
+          <InputLabel id="application-status">Application Status</InputLabel>
+          <Select
+            displayEmpty
+            labelId="application-status"
+            id="status-menu"
+            onChange={handleChange}
+            value={status}
+          >
+            <MenuItem value="">All</MenuItem>
+            {APPROVAL_STATUES.map((item) => (
+              <MenuItem key={item.value} value={item.value}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       <EnhancedTable
         data={organizations}
         fieldList={fieldList}
