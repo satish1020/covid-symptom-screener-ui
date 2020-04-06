@@ -15,7 +15,7 @@ env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE_STG: --zone us-central1-c
-  GKE_ZONE_PROD: --region us-central1
+  GKE_ZONE_PROD: --zone us-central1-a
   REGISTRY_HOSTNAME: gcr.io
   IMAGE: kelvin-ui
   IMAGE_TAG: latest
