@@ -47,7 +47,7 @@ jobs:
           echo "::set-env name=ENV::prod"
           echo "::set-env name=GKE_CLUSTER::cluster-prod"
           echo "::set-env name=GKE_ZONE_OR_REGION::$GKE_ZONE_PROD"
-          echo "::set-env name=IMAGE_TAG::`$(echo $GITHUB_REF | cut -d / -f 3)`"
+          echo "::set-env name=IMAGE_TAG::`echo ${GITHUB_REF} | cut -d / -f 3`"
           export IMAGE_PATH="$REGISTRY_HOSTNAME"/"$GCP_PROJECT_ID"/"$IMAGE":"$IMAGE_TAG"
           echo "::set-env name=IMAGE_PATH::$IMAGE_PATH"
           echo "::set-env name=REACT_APP_GOOGLE_MAPS_API_KEY::${{ secrets.MAPS_API_KEY_PROD }}"
