@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Typography } from '@material-ui/core'
+
+import { SectionTitle } from './SectionTitle'
 
 import { EnhancedTable } from '../../Shared/components/EnhancedTable'
 import { useTable } from '../../Shared/components/EnhancedTable/useTable'
@@ -73,7 +74,8 @@ export const OrganizationsSection = () => {
 
   return (
     <div>
-      <Typography>{organizations.length} organizations</Typography>
+      <SectionTitle total={totalOrgs} title="Organizations" />
+
       <EnhancedTable
         data={organizations}
         fieldList={fieldList}

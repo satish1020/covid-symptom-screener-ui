@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Typography } from '@material-ui/core'
+import { SectionTitle } from './SectionTitle'
 
 import { EnhancedTable } from '../../Shared/components/EnhancedTable'
 import { useTable } from '../../Shared/components/EnhancedTable/useTable'
@@ -36,8 +36,9 @@ const initialTableState = {
 export const MeasurementsSection = () => {
   const table = useTable(initialTableState)
 
-  const [organizations, setOrganizations] = useState([])
-  const [totalOrgs, setTotalOrgs] = useState(0)
+  const [measurements, setMeasurements] = useState([])
+  const [totalMeasurements, setTotalMeasurements] = useState(0)
+
   const [pending, setPending] = useState(false)
 
   const fetchOrgs = async ({ page, perPage, orderBy, direction }) => {
@@ -49,8 +50,8 @@ export const MeasurementsSection = () => {
       direction,
     })
 
-    setTotalOrgs(total)
-    setOrganizations(results)
+    setTotalMeasurements(total)
+    setMeasurements(results)
     setPending(false)
   }
 
@@ -60,12 +61,13 @@ export const MeasurementsSection = () => {
 
   return (
     <div>
-      <Typography>{organizations.length} organizations</Typography>
+      <SectionTitle total={totalMeasurements} title="Measurements" />
       <EnhancedTable
-        data={organizations}
+        data={measurements}
         fieldList={fieldList}
         isLoading={pending}
-        total={totalOrgs}
+        total={totalMeasurements}
+        aster
         page={table.state.page}
         rowsPerPage={table.state.perPage}
         direction={table.state.direction}
