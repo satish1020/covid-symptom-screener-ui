@@ -207,7 +207,12 @@ const RegistrationForm = ({ setIsRegistered }) => {
               <Box>
                 {/* Generic error message until we finalize a way to handle errors */}
                 {errorMessage && (
-                  <div className={classes.errorMessage}>{errorMessage}</div>
+                  <div
+                    data-testid="error-message"
+                    className={classes.errorMessage}
+                  >
+                    {errorMessage}
+                  </div>
                 )}
                 <Button
                   fullWidth

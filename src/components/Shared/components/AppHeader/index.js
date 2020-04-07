@@ -18,14 +18,14 @@ const useStyles = makeStyles(() => ({
   toolbar: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '100%',
   },
   logo: {
-    height: '40px',
-    marginTop: '3px',
+    height: '30px',
   },
   logout: {
-    height: '40px',
-    marginTop: '3px',
+    height: '30px',
     borderRadius: '20px',
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     boxSizing: 'border-box',
