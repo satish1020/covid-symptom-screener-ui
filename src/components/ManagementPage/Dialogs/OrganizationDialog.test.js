@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  render,
-  fireEvent,
-  wait
-} from '@testing-library/react'
+import { render, fireEvent, wait } from '@testing-library/react'
 
 import OrganizationDialog from './OrganizationDialog'
 
@@ -26,6 +22,7 @@ describe('OrganizationsDialog', () => {
       contact_email: 'test@email.com',
       contact_phone: '(111) 111-1111',
       approval_status: 'APPROVED',
+      authorization_code: 'ab123',
     },
     {
       org_name: 'Org 1',
@@ -49,20 +46,21 @@ describe('OrganizationsDialog', () => {
     .spyOn(organizationService, 'updateOrganization')
     .mockResolvedValue({})
 
-    it.each`
+  it.each`
     data       | status                     | buttonText    | updatedStatus
-    ${data[0]} | ${data[0].approval_status} | ${'Approve'}  | ${'APPROVED'} 
-    ${data[1]} | ${data[1].approval_status} | ${'Suspend'}  | ${'SUSPENDED'} 
-    ${data[2]} | ${data[2].approval_status} | ${'Approve'}  | ${'APPROVED'} 
-    ${data[3]} | ${data[3].approval_status} | ${'Re-Apply'} | ${'APPLIED'} 
+    ${data[0]} | ${data[0].approval_status} | ${'Approve'}  | ${'APPROVED'}
+    ${data[1]} | ${data[1].approval_status} | ${'Suspend'}  | ${'SUSPENDED'}
+    ${data[2]} | ${data[2].approval_status} | ${'Approve'}  | ${'APPROVED'}
+    ${data[3]} | ${data[3].approval_status} | ${'Re-Apply'} | ${'APPLIED'}
   `(
     'renders org data with the approval status of $status and a button of $buttonText',
     // eslint-disable-next-line no-unused-vars
-    async ({ data, status, buttonText, updatedStatus }) => { // status is used for the jest readout
+    async ({ data, status, buttonText, updatedStatus }) => {
+      // status is used for the jest readout
       const setDialogDataMock = jest.fn()
       const refreshTableMock = jest.fn()
 
-      const { getByText, getAllByRole } = render(
+      const { getByText, getAllByRole, queryByText } = render(
         <OrganizationDialog
           dialogData={{ open: true, organization: data }}
           setDialogData={setDialogDataMock}
@@ -70,11 +68,19 @@ describe('OrganizationsDialog', () => {
         />
       )
 
+      getByText(status)
+      if (status === 'APPROVED') {
+        getByText('PIN')
+        getByText('ab123')
+      } else {
+        expect(queryByText('PIN')).toBeNull()
+      }
+
       const buttons = getAllByRole('button')
       expect(buttons.length).toBe(3)
       getByText(buttonText)
       fireEvent.click(buttons[2]) //click the primary button
-      let outData = {...data}
+      let outData = { ...data }
       outData.approval_status = updatedStatus
       await wait(() => {
         expect(putOrganizationSpy).toHaveBeenCalledWith(outData)

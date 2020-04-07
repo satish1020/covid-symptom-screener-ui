@@ -193,7 +193,25 @@ export default function OrganizationDialog(props) {
                 {organization.sector}
               </TableCell>
             </TableRow>
-            <TableRow className={classes.spacerRow}></TableRow>
+            <TableRow>
+              <TableCell classes={{ root: classes.tableCell }} align="right">
+                Status
+              </TableCell>
+              <TableCell classes={{ root: classes.tableCell }} align="left">
+                {organization.approval_status}
+              </TableCell>
+            </TableRow>
+            {organization.approval_status === 'APPROVED' && (
+              <TableRow>
+                <TableCell classes={{ root: classes.tableCell }} align="right">
+                  PIN
+                </TableCell>
+                <TableCell classes={{ root: classes.tableCell }} align="left">
+                  {organization.authorization_code}
+                </TableCell>
+              </TableRow>
+            )}
+            <TableRow className={classes.spacerRow} />
             <TableRow>
               <TableCell
                 classes={{ root: classes.tableCell }}

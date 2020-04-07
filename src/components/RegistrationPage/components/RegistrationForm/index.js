@@ -194,11 +194,6 @@ const RegistrationForm = ({ setIsRegistered }) => {
                   }}
                 />
               </Box>
-              <Box marginBottom={2} fontStyle="italic">
-                <Typography variant="body2">
-                  By submitting this application...
-                </Typography>
-              </Box>
               <Box marginBottom={2}>
                 <Typography
                   gutterBottom
