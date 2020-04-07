@@ -4,10 +4,10 @@ export const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
       regular: {
-        minHeight: 'none',
+        minHeight: '0',
         '@media (min-width: 0px)': {
           //override all default styling breakpoints
-          minHeight: 'none',
+          minHeight: '0',
         },
       },
     },
