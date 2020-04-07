@@ -9,6 +9,7 @@ export const APPROVAL_STATUSES = [
   { value: 'APPLIED', name: 'Applied' },
   { value: 'APPROVED', name: 'Approved' },
   { value: 'SUSPENDED', name: 'Suspended' },
+  { value: 'REJECTED', name: 'Rejected' },
 ]
 
 export const ORGANIZATION_TYPES = [
