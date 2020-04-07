@@ -14,6 +14,8 @@ import { SectionTitle } from './SectionTitle'
 import { EnhancedTable } from '../../Shared/components/EnhancedTable'
 import { useTable } from '../../Shared/components/EnhancedTable/useTable'
 
+import OrganizationDialog from '../Dialogs/OrganizationDialog'
+
 import { getOrganizations } from '../../../services/organizations'
 import { DIRECTION_DESC, APPROVAL_STATUSES } from '../../../constants'
 
@@ -47,6 +49,8 @@ export const OrganizationsSection = () => {
   const [organizations, setOrganizations] = useState([])
   const [totalOrgs, setTotalOrgs] = useState(0)
   const [pending, setPending] = useState(false)
+  const [dialogData, setDialogData] = useState({open: false})
+  const [step, setStep] = useState(0)
 
   const fieldList = [
     {
@@ -84,7 +88,7 @@ export const OrganizationsSection = () => {
       label: 'Status',
       hasSort: true,
       formatCell: (item) => (
-        <Chip className={classes.chip} label={item.approval_status} />
+        <Chip className={classes.chip} label={item.approval_status} onClick={() => {setDialogData({open: true, organization: item})}}/>
       ),
     },
   ]
@@ -109,9 +113,14 @@ export const OrganizationsSection = () => {
     setPending(false)
   }
 
+  //this makes a state change so we refresh the data
+  const refreshTable = () => {
+    setStep(prev => prev + 1)
+  }
+
   useEffect(() => {
     fetchOrgs(table.state, { approvalStatus: status })
-  }, [table.state, status])
+  }, [table.state, status, step])
 
   const handleChange = (event) => {
     setStatus(event.target.value)
@@ -156,6 +165,8 @@ export const OrganizationsSection = () => {
         onRequestChangePage={table.actions.changePage}
         onRequestChangeRowsPerPage={table.actions.changePerPage}
       />
+      {dialogData.open &&
+        <OrganizationDialog dialogData={dialogData} setDialogData={setDialogData} refreshTable={refreshTable}/>}
     </div>
   )
 }
