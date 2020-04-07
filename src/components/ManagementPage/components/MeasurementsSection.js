@@ -42,7 +42,7 @@ export const MeasurementsSection = () => {
 
   const [pending, setPending] = useState(false)
 
-  const fetchOrgs = async ({ page, perPage, orderBy, direction }) => {
+  const fetchMeasurements = async ({ page, perPage, orderBy, direction }) => {
     setPending(true)
     const { results, total } = await getTemperatures({
       page,
@@ -57,7 +57,7 @@ export const MeasurementsSection = () => {
   }
 
   useEffect(() => {
-    fetchOrgs(table.state)
+    fetchMeasurements(table.state)
   }, [table.state])
 
   return (

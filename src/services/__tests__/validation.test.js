@@ -1,4 +1,4 @@
-import { isInvalidEmail, isInvalidPhoneNumber } from './utils'
+import { isInvalidEmail, isInvalidPhoneNumber } from '../validation'
 
 describe('registration form utils', () => {
   describe('isInvalidEmail', () => {

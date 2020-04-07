@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { AppBar, Tabs, Tab, makeStyles } from '@material-ui/core'
 import { OrganizationsSection } from './components/OrganizationsSection'
 import { MeasurementsSection } from './components/MeasurementsSection'
+import { AdminUserSection } from './components/AdminUserSection'
 import { TabPanel } from './components/tabPanel'
 
 export const ManagementPage = () => {
@@ -23,6 +24,7 @@ export const ManagementPage = () => {
           >
             <Tab label="Organizations" classes={{ root: classes.tabRoot }} />
             <Tab label="Measurements" classes={{ root: classes.tabRoot }} />
+            <Tab label="Admin Users" classes={{ root: classes.tabRoot }} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -30,6 +32,9 @@ export const ManagementPage = () => {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <MeasurementsSection />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <AdminUserSection />
         </TabPanel>
       </div>
     </div>

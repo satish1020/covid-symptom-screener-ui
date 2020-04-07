@@ -13,8 +13,12 @@ import {
 import useStyles from './styles'
 import { Formik, Form } from 'formik'
 import { createOrganization } from '../../../../services/organizations'
+import {
+  isInvalidEmail,
+  isInvalidPhoneNumber,
+} from '../../../../services/validation'
 import { MaskedPhoneInput } from '../PhoneField'
-import { isInvalidEmail, isInvalidPhoneNumber } from './utils'
+
 import { useHistory } from 'react-router-dom'
 import { ORGANIZATION_TYPES } from '../../../../constants'
 
