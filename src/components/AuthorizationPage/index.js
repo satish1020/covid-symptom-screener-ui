@@ -45,18 +45,16 @@ export const AuthorizationPage = () => {
       alignItems="center"
     >
       <div className={classes.textContainer}>
-        <PageTitle title="Sign in" />
+        <PageTitle title="Your Organization" />
         <Typography>
-          A leader within your company should have provided you with an
-          authorization code to continue. If you do not have an authorization
-          code, you may need to complete{' '}
-          <Link href="/registration">Organization Registration</Link>.
+          In order to submit assessments, you must first enter your organization's PIN. Don't have a PIN? You may need to{' '}
+          <Link href="/registration">register your organization</Link>.
         </Typography>
       </div>
       <TextField
         className={classes.authCode}
         id="org-auth-code"
-        label="Authorization Code"
+        label="Organization PIN"
         value={authCode}
         onChange={handleOrgChange}
         helperText={helperText}

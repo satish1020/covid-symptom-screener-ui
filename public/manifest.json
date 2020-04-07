@@ -1,6 +1,6 @@
 {
-  "short_name": "Temperature Aggregation",
-  "name": "MN Department of Health Temperature Aggregation",
+  "short_name": "Assessment Aggregation",
+  "name": "State of Minnesota Assessment Aggregation",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,9 +8,14 @@
       "type": "image/x-icon"
     },
     {
-      "src": "mdh-logo.png",
+      "src": "mn-logo.png",
       "type": "image/png",
-      "sizes": "300x207"
+      "sizes": "750x322"
+    },
+    {
+      "src": "mn-logo-white.png",
+      "type": "image/png",
+      "sizes": "357x150"
     }
   ],
   "start_url": ".",

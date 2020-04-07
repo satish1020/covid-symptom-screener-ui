@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Grid, Link, Typography, makeStyles } from '@material-ui/core'
+import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
 import { GoogleLogin } from 'react-google-login'
 
 import { TOKEN_ID } from '../../constants'
@@ -83,16 +83,11 @@ export const HomePage = () => {
       >
         <img
           className={classes.splashImage}
-          src={process.env.PUBLIC_URL + '/mdh-logo.png'}
+          src={process.env.PUBLIC_URL + '/mn-logo.png'}
           alt="Logo"
         />
         <Typography className={classes.appTitle}>
-          Temperature Aggregator
-        </Typography>
-        <Typography className={classes.subtext}>
-          Minnesota cares about your workplace, so we've made a simple way to
-          continue the fight against COVID-19 by taking temperatures across the
-          state as people return.
+          Assessment Aggregation
         </Typography>
         <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
@@ -111,9 +106,9 @@ export const HomePage = () => {
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
         />
-        <Link href="https://www.health.state.mn.us/diseases/coronavirus/index.html">
-          Contact
-        </Link>
+        <Typography className={classes.subtext}>
+          A valid Google account is needed to sign-in to this application.
+        </Typography>
       </Grid>
     </div>
   )

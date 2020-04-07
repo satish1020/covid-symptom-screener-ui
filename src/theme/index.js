@@ -2,6 +2,14 @@ import { createMuiTheme } from '@material-ui/core/styles'
 
 export const theme = createMuiTheme({
   overrides: {
+    MuiToolbar: {
+      regular: {
+        minHeight: 'none',
+        '@media (min-width: 0px)': { //override all default styling breakpoints
+          minHeight: 'none'
+        }
+      }
+    },
     MuiInput: {
       formControl: {
         'label + &': {
@@ -72,7 +80,7 @@ export const theme = createMuiTheme({
     width: '100%',
     height: '40px',
     borderRadius: '30px',
-    backgroundColor: '#78be21',
+    backgroundColor: '#003865',
     fontWeight: '500',
     fontSize: '1rem',
     textTransform: 'none',
@@ -81,7 +89,7 @@ export const theme = createMuiTheme({
     lineHeight: 'normal',
     boxShadow: '0px 3px 4px rgba(0, 153, 204, 0.0980392156862745)',
     '&:active': {
-      backgroundColor: '#003865',
+      backgroundColor: '#002e53',
       boxShadow: '0px 4px 12px rgba(0, 153, 204, 0.01)',
     },
   },

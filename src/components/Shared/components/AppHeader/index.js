@@ -20,11 +20,12 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
   },
   logo: {
-    width: '170px',
-    marginBottom: '5px',
+    height: '40px',
+    marginTop: '3px'
   },
   logout: {
     height: '40px',
+    marginTop: '3px',
     borderRadius: '20px',
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     boxSizing: 'border-box',
@@ -49,8 +50,8 @@ export const AppHeader = () => {
       <AppBar elevation={0} position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <img
-            src={process.env.PUBLIC_URL + '/logo-h-whi_rgb.png'}
-            alt="MN Department of Health"
+            src={process.env.PUBLIC_URL + '/mn-logo-white.png'}
+            alt="Minnesota Logo"
             className={classes.logo}
           />
           {userState.loggedIn && (
