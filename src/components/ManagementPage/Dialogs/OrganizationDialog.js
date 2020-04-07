@@ -185,6 +185,14 @@ export default function OrganizationDialog(props) {
                 {organization.tax_id}
               </TableCell>
             </TableRow>
+            <TableRow>
+              <TableCell classes={{ root: classes.tableCell }} align="right">
+                Sector
+              </TableCell>
+              <TableCell classes={{ root: classes.tableCell }} align="left">
+                {organization.sector}
+              </TableCell>
+            </TableRow>
             <TableRow className={classes.spacerRow}></TableRow>
             <TableRow>
               <TableCell
