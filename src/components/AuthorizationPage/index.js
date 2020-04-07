@@ -43,6 +43,8 @@ export const AuthorizationPage = () => {
   const isAdmin = isRoleAdmin(userState.userRole)
 
   return (
+    <>
+    <PageTitle title="Your Organization" />
     <Grid
       container
       className={classes.pageContainer}
@@ -51,7 +53,6 @@ export const AuthorizationPage = () => {
       alignItems="center"
     >
       <div className={classes.textContainer}>
-        <PageTitle title="Your Organization" />
         <Typography>
           In order to submit assessments, you must first enter your
           organization's PIN. Don't have a PIN? You may need to{' '}
@@ -90,6 +91,7 @@ export const AuthorizationPage = () => {
         </Link>
       )}
     </Grid>
+    </>
   )
 }
 
@@ -98,7 +100,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   textContainer: {
-    margin: '1rem',
     textAlign: 'left',
     marginBottom: '1rem',
   },
