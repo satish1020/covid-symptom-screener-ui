@@ -42,7 +42,8 @@ const RegistrationForm = ({ setIsRegistered }) => {
       setSubmitting(false)
       setIsRegistered(true)
     } catch (e) {
-      setErrorMessage(e.message)
+      setErrorMessage(e?.message ?? 'An error occurred')
+      console.error(e)
       setSubmitting(false)
     }
   }

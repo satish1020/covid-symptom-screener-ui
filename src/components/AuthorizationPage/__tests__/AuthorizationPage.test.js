@@ -1,4 +1,6 @@
 import React from 'react'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 
 import { render, fireEvent, wait } from '@testing-library/react'
 
@@ -31,6 +33,8 @@ describe('AuthorizationPage', () => {
   }
 
   const setup = ({ role }) => {
+    const history = createMemoryHistory()
+
     const userState = {
       loggedIn: true,
       userRole: {
@@ -43,7 +47,9 @@ describe('AuthorizationPage', () => {
 
     const utils = render(
       <UserContext.Provider value={[userState, userActions]}>
-        <AuthorizationPage />
+        <Router history={history}>
+          <AuthorizationPage />
+        </Router>
       </UserContext.Provider>
     )
 

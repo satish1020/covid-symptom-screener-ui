@@ -108,6 +108,8 @@ export const LocationPage = () => {
 
   const handleClick = () => {
     if (state.longitude && state.latitude) {
+      // remove local storage after dev
+      window.localStorage.setItem('coords', JSON.stringify(state))
       setCoords({
         longitude: state.longitude,
         latitude: state.latitude,

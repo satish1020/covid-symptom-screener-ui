@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   Button,
   Grid,
@@ -14,6 +15,7 @@ import { isRoleAdmin } from '../../services/users'
 
 export const AuthorizationPage = () => {
   const classes = useStyles()
+  const history = useHistory()
   const [authCode, setAuthCode] = useState('')
   const [helperText, setHelperText] = useState('')
   const [userState, userActions] = useContext(UserContext)
@@ -25,6 +27,9 @@ export const AuthorizationPage = () => {
         setHelperText('Invalid Authorization Code')
       } else {
         userActions.setOrganization(orgGetResp)
+        // remove local storage after dev
+        localStorage.setItem('organization', JSON.stringify(orgGetResp))
+        history.push('/location')
       }
     } catch (err) {
       setHelperText(err?.message ?? 'An error occurred')

@@ -49,7 +49,7 @@ export const OrganizationsSection = () => {
   const [organizations, setOrganizations] = useState([])
   const [totalOrgs, setTotalOrgs] = useState(0)
   const [pending, setPending] = useState(false)
-  const [dialogData, setDialogData] = useState({open: false})
+  const [dialogData, setDialogData] = useState({ open: false })
   const [step, setStep] = useState(0)
 
   const fieldList = [
@@ -88,7 +88,13 @@ export const OrganizationsSection = () => {
       label: 'Status',
       hasSort: true,
       formatCell: (item) => (
-        <Chip className={classes.chip} label={item.approval_status} onClick={() => {setDialogData({open: true, organization: item})}}/>
+        <Chip
+          className={classes.chip}
+          label={item.approval_status}
+          onClick={() => {
+            setDialogData({ open: true, organization: item })
+          }}
+        />
       ),
     },
   ]
@@ -115,7 +121,7 @@ export const OrganizationsSection = () => {
 
   //this makes a state change so we refresh the data
   const refreshTable = () => {
-    setStep(prev => prev + 1)
+    setStep((prev) => prev + 1)
   }
 
   useEffect(() => {
@@ -165,8 +171,13 @@ export const OrganizationsSection = () => {
         onRequestChangePage={table.actions.changePage}
         onRequestChangeRowsPerPage={table.actions.changePerPage}
       />
-      {dialogData.open &&
-        <OrganizationDialog dialogData={dialogData} setDialogData={setDialogData} refreshTable={refreshTable}/>}
+      {dialogData.open && (
+        <OrganizationDialog
+          dialogData={dialogData}
+          setDialogData={setDialogData}
+          refreshTable={refreshTable}
+        />
+      )}
     </div>
   )
 }
