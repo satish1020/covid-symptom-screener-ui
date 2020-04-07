@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
   },
   logo: {
     height: '40px',
-    marginTop: '3px'
+    marginTop: '3px',
   },
   logout: {
     height: '40px',

@@ -5,10 +5,11 @@ export const theme = createMuiTheme({
     MuiToolbar: {
       regular: {
         minHeight: 'none',
-        '@media (min-width: 0px)': { //override all default styling breakpoints
-          minHeight: 'none'
-        }
-      }
+        '@media (min-width: 0px)': {
+          //override all default styling breakpoints
+          minHeight: 'none',
+        },
+      },
     },
     MuiInput: {
       formControl: {

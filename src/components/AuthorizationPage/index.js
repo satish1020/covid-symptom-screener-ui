@@ -27,6 +27,7 @@ export const AuthorizationPage = () => {
         userActions.setOrganization(orgGetResp)
       }
     } catch (err) {
+      setHelperText(err?.message ?? 'An error occurred')
       console.error(err)
     }
   }
@@ -47,13 +48,17 @@ export const AuthorizationPage = () => {
       <div className={classes.textContainer}>
         <PageTitle title="Your Organization" />
         <Typography>
-          In order to submit assessments, you must first enter your organization's PIN. Don't have a PIN? You may need to{' '}
+          In order to submit assessments, you must first enter your
+          organization's PIN. Don't have a PIN? You may need to{' '}
           <Link href="/registration">register your organization</Link>.
         </Typography>
       </div>
       <TextField
         className={classes.authCode}
         id="org-auth-code"
+        inputProps={{
+          'data-testid': 'org-auth-code',
+        }}
         label="Organization PIN"
         value={authCode}
         onChange={handleOrgChange}
@@ -67,7 +72,11 @@ export const AuthorizationPage = () => {
         Submit
       </Button>
 
-      <Link href="/registration" className={classes.pageLink}>
+      <Link
+        href="/registration"
+        data-testid="organization-registration-link"
+        className={classes.pageLink}
+      >
         Organization Registration
       </Link>
       {isAdmin && (
