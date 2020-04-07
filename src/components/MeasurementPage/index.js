@@ -139,7 +139,7 @@ export const MeasurementPage = () => {
       <Box width="100%" height="100%">
         <input
           className={classes.input}
-          type="tel"
+          type="number"
           onChange={handleChange}
           value={temperature}
           placeholder="00.0"
