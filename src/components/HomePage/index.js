@@ -103,6 +103,7 @@ export const HomePage = () => {
             </Button>
           )}
           buttonText="Login"
+          isSignedIn={true}
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
         />
