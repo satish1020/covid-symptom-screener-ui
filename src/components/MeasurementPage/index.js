@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
+
 import { CoordinateContext } from '../Shared/context/coordinateContext'
 import { UserContext } from '../Shared/context/userContext'
 
@@ -127,9 +128,35 @@ export const MeasurementPage = () => {
   }
 
   function handleChange(e) {
+    const value = e.target.value
+
+    const result = []
+
+    if (value && value.length) {
+      const firstValue = e.target.value[0]
+      for (let i = 0; i < value.length; i++) {
+        let curr = value[i]
+
+        if (i === 2 && firstValue === '9') {
+          result.push('.')
+        } else if (i === 3 && firstValue === '1') {
+          result.push('.')
+        }
+
+        if (/[0-9]/.test(curr)) {
+          if (
+            (firstValue === '9' && result.length < 4) ||
+            (firstValue === '1' && result.length < 5)
+          ) {
+            result.push(curr)
+          }
+        }
+      }
+    }
+
     setSnackbarIsOpen(false)
     setErrorMessage('')
-    setTemperature(e.target.value)
+    setTemperature(result.join(''))
   }
 
   async function handleSubmit() {
@@ -189,7 +216,7 @@ export const MeasurementPage = () => {
           className={classes.input}
           id="temperature"
           name="temperature"
-          type="number"
+          type="tel"
           onChange={handleChange}
           value={temperature}
           placeholder="00.0"
