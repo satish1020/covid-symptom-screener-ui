@@ -86,7 +86,7 @@ EnhancedTable.propTypes = {
   page: propTypes.number.isRequired,
   rowsPerPage: propTypes.number.isRequired,
   direction: propTypes.oneOf([DIRECTION_DESC, DIRECTION_ASC]).isRequired,
-  orderBy: propTypes.string.isRequired,
+  orderBy: propTypes.string,
   onRequestSort: propTypes.func,
   onRequestChangePage: propTypes.func,
   onRequestChangeRowsPerPage: propTypes.func,

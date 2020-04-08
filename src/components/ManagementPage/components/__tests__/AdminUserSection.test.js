@@ -1,10 +1,10 @@
 import React from 'react'
 import { render, fireEvent, wait, waitForElement } from '@testing-library/react'
 
-import { AdminUserSection } from './AdminUserSection'
-import { DIRECTION_DESC, ROLE_ADMIN } from '../../../constants'
+import { AdminUserSection } from '../AdminUserSection'
+import { DIRECTION_DESC, ROLE_ADMIN } from '../../../../constants'
 
-import * as userService from '../../../services/users'
+import * as userService from '../../../../services/users'
 
 describe('AdminUserSection', () => {
   afterEach(() => {

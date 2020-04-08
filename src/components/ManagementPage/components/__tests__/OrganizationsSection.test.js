@@ -2,10 +2,10 @@ import React from 'react'
 import { render, wait, waitForElement } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { OrganizationsSection } from './OrganizationsSection'
-import { DIRECTION_DESC } from '../../../constants'
+import { OrganizationsSection } from '../OrganizationsSection'
+import { DIRECTION_DESC } from '../../../../constants'
 
-import * as organizationService from '../../../services/organizations'
+import * as organizationService from '../../../../services/organizations'
 
 describe('OrganizationsSection', () => {
   const setup = () => {

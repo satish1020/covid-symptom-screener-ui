@@ -2,11 +2,11 @@ import React from 'react'
 import { render, fireEvent, wait, waitForElement } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { AdminUserDialog } from './AdminUserDialog'
+import { AdminUserDialog } from '../AdminUserDialog'
 
-import * as userService from '../../../services/users'
+import * as userService from '../../../../services/users'
 
-import { ROLE_ADMIN } from '../../../constants'
+import { ROLE_ADMIN } from '../../../../constants'
 
 describe('AdminUserDialog', () => {
   const setup = () => {

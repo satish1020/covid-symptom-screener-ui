@@ -27,6 +27,42 @@ export const getTemperatures = async ({
   }
 }
 
+export const getFormattedTemperatures = async ({
+  perPage = 20,
+  page = 0,
+  orderBy,
+  direction,
+}) => {
+  const { results, total } = await getTemperatures({
+    perPage,
+    page,
+    orderBy,
+    direction,
+  })
+
+  const resultsWithQuestionsAnswers = results.map((item) => {
+    const questionAnswers = item.question_answers.reduce((prev, curr) => {
+      const id = curr.question.id
+      const answer = curr.answer
+
+      return {
+        ...prev,
+        [id]: answer.toString(),
+      }
+    }, {})
+
+    return {
+      ...item,
+      ...questionAnswers,
+    }
+  })
+
+  return {
+    results: resultsWithQuestionsAnswers,
+    total,
+  }
+}
+
 export const submitTemperatures = async (authorizationCode, temperatures) => {
   const response = await axios.post(
     `${appConfig.kelvinApi}/temperatures`,

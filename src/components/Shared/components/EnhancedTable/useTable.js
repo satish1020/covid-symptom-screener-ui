@@ -58,6 +58,7 @@ const tableReducer = (state, action) => {
 
       return {
         ...state,
+        page: 0,
         direction: newDirection,
         orderBy: key,
       }

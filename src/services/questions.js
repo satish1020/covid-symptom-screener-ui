@@ -17,3 +17,15 @@ export async function getQuestions(status) {
   const response = await axios.get(`${appConfig.kelvinApi}/questions`, config)
   return response.data
 }
+
+export async function getTableFieldsByQuestion() {
+  const data = await getQuestions('ENABLED')
+
+  const fieldList = data.map((question) => ({
+    key: question.id,
+    label: question.display_value,
+    hasSort: false,
+  }))
+
+  return fieldList
+}

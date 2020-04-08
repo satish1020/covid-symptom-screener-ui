@@ -34,5 +34,5 @@ EnhancedTableCell.propTypes = {
   onClick: propTypes.func,
   direction: propTypes.oneOf([DIRECTION_DESC, DIRECTION_ASC]),
   active: propTypes.bool,
-  children: propTypes.any.isRequired,
+  children: propTypes.any,
 }

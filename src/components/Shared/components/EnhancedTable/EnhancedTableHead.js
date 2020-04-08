@@ -53,6 +53,6 @@ EnhancedTableHead.propTypes = {
     })
   ).isRequired,
   direction: propTypes.oneOf([DIRECTION_DESC, DIRECTION_ASC]).isRequired,
-  orderBy: propTypes.string.isRequired,
+  orderBy: propTypes.string,
   onSort: propTypes.func,
 }

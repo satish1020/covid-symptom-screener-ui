@@ -1,9 +1,9 @@
 import React from 'react'
 import { render, fireEvent, wait } from '@testing-library/react'
 
-import OrganizationDialog from './OrganizationDialog'
+import OrganizationDialog from '../OrganizationDialog'
 
-import * as organizationService from '../../../services/organizations'
+import * as organizationService from '../../../../services/organizations'
 
 describe('OrganizationsDialog', () => {
   const data = [
