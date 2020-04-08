@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Box, FormLabel, makeStyles } from '@material-ui/core'
 import CustomSwitch from './CustomSwitch'
 
@@ -37,3 +38,10 @@ const SwitchInput = ({ label, id, value, onChange }) => {
 }
 
 export default SwitchInput
+
+SwitchInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  value: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+}

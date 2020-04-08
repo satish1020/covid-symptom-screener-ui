@@ -27,6 +27,9 @@ const FORM_STATE = {
 }
 
 const useStyles = makeStyles(({ spacing, buttonPrimary }) => ({
+  tempLabel: {
+    fontSize: '1.2rem',
+  },
   input: {
     width: '100%',
     display: 'block',
@@ -178,9 +181,14 @@ export const MeasurementPage = () => {
           Organization Name: <strong>{organization.org_name}</strong>
         </Typography>
       )}
-      <Box width="100%">
+      <Box width="100%" marginTop={2}>
+        <label className={classes.tempLabel} htmlFor="temperature">
+          Temperature
+        </label>
         <input
           className={classes.input}
+          id="temperature"
+          name="temperature"
           type="number"
           onChange={handleChange}
           value={temperature}

@@ -63,7 +63,7 @@ const CustomSwitch = ({ classes, ...props }) => {
 export default withStyles(styles)(CustomSwitch)
 
 CustomSwitch.propTypes = {
-  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   inputProps: PropTypes.object,
