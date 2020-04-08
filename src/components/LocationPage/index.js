@@ -128,7 +128,7 @@ export const LocationPage = () => {
           <Grid item xs={12}>
             <div
               style={{
-                height: '400px',
+                height: '40vh',
                 width: '100%',
                 overflow: 'visible',
               }}

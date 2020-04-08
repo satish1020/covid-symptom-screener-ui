@@ -22,7 +22,7 @@ export const AuthorizationPage = () => {
 
   const submitOrgAuth = async () => {
     try {
-      const orgGetResp = await getOrganizationForAuthCode(authCode)
+      const orgGetResp = await getOrganizationForAuthCode(authCode.toLowerCase())
       if (orgGetResp === undefined) {
         setHelperText('Invalid Authorization Code')
       } else {
