@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { number } from 'prop-types'
 import GoogleMapReact from 'google-map-react'
-
-import { Typography } from '@material-ui/core'
 
 import { Marker } from './Marker'
 
@@ -17,12 +15,9 @@ const distanceToMouse = (pt, mousePos) => {
   }
 }
 
-export const MapContainer = ({ latitude, longitude }) => {
-  const [pending, setPending] = useState(true)
-
+export const MapContainer = ({ latitude, longitude, setPending }) => {
   return (
     <>
-      {pending && <Typography>LOADING...</Typography>}
       <GoogleMapReact
         resetBoundsOnResize
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
@@ -32,9 +27,7 @@ export const MapContainer = ({ latitude, longitude }) => {
         }}
         defaultZoom={17}
         distanceToMouse={distanceToMouse}
-        onTilesLoaded={() => {
-          setPending(false)
-        }}
+        onGoogleApiLoaded={() => setPending(false)}
       >
         <Marker lat={latitude} lng={longitude} />
       </GoogleMapReact>

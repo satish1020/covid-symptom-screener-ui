@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext } from 'react'
+import React, { useReducer, useEffect, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import PageTitle from '../Shared/components/PageTitle'
 import Box from '@material-ui/core/Box'
@@ -78,6 +78,7 @@ export const LocationPage = () => {
   })
 
   const [, setCoords] = useContext(CoordinateContext)
+  const [pending, setPending] = useState(true)
 
   useEffect(() => {
     if ('navigator' in window) {
@@ -132,7 +133,7 @@ export const LocationPage = () => {
                 overflow: 'visible',
               }}
             >
-              {state.status === STATUS_IDLE && <Spinner />}
+              {(state.status === STATUS_IDLE || pending) && <Spinner />}
               {state.status === STATUS_ERROR && (
                 <div className={classes.center}>
                   <Typography>Please use Safari or Chrome</Typography>
@@ -144,6 +145,7 @@ export const LocationPage = () => {
                   <MapContainer
                     latitude={state.latitude}
                     longitude={state.longitude}
+                    setPending={setPending}
                   />
                 )}
             </div>
