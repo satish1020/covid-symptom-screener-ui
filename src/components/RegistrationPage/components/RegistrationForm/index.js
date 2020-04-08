@@ -107,9 +107,10 @@ const RegistrationForm = ({ setIsRegistered }) => {
                   }}
                 />
                 <FormControl fullWidth className={classes.inputField}>
-                  <InputLabel htmlFor="sector">Industry</InputLabel>
+                  <InputLabel id="sector_label" htmlFor="sector">Industry</InputLabel>
                   <Select
                     name="sector"
+                    labelId="sector_label"
                     value={values.sector}
                     onChange={handleChange}
                     inputProps={{
