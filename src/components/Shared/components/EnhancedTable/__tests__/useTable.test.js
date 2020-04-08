@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react-hooks'
 
-import { useTable } from './useTable'
-import { DIRECTION_DESC, DIRECTION_ASC } from '../../../../constants'
+import { useTable } from '../useTable'
+import { DIRECTION_DESC, DIRECTION_ASC } from '../../../../../constants'
 
 describe('useTable hook', () => {
   it('has a default state', () => {

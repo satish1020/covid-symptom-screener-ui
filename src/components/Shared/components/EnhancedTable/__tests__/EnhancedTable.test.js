@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import { EnhancedTable } from './index'
+import { EnhancedTable } from '../index'
 
-import { DIRECTION_DESC } from '../../../../constants'
+import { DIRECTION_DESC } from '../../../../../constants'
 
 describe('EnhancedTable', () => {
   const getProps = ({ isLoading = false } = {}) => ({
