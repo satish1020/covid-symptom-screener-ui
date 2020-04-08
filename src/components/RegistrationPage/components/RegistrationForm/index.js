@@ -84,9 +84,19 @@ const RegistrationForm = ({ setIsRegistered }) => {
             Object.keys(errors).length > 0
           return (
             <Form>
+              <Box marginBottom={2}>
+                <Typography
+                  gutterBottom
+                  variant="body2"
+                  className={submitIsDisabled ? classes.error : ''}
+                >
+                  * All fields are required
+                </Typography>
+              </Box>
               <Box>
                 <TextField
                   name="org_name"
+                  id="org_name"
                   label="Organization Name"
                   onChange={handleChange}
                   value={values.org_name}
@@ -125,6 +135,7 @@ const RegistrationForm = ({ setIsRegistered }) => {
                 </FormControl>
                 <TextField
                   name="tax_id"
+                  id="tax_id"
                   label="MN Tax ID"
                   helperText="To be used for verification"
                   onChange={handleChange}
@@ -142,6 +153,7 @@ const RegistrationForm = ({ setIsRegistered }) => {
                 </Typography>
                 <TextField
                   name="contact_name"
+                  id="contact_name"
                   label="Name"
                   helperText="First and Last Name"
                   onChange={handleChange}
@@ -154,6 +166,7 @@ const RegistrationForm = ({ setIsRegistered }) => {
                 />
                 <TextField
                   name="contact_job_title"
+                  id="contact_job_title"
                   label="Job Title"
                   onChange={handleChange}
                   value={values.contact_job_title}
@@ -165,6 +178,7 @@ const RegistrationForm = ({ setIsRegistered }) => {
                 />
                 <TextField
                   name="contact_phone"
+                  id="contact_phone"
                   label="Phone Number"
                   helperText={`e.g. 555-555-5555. ${
                     errors.contact_phone || ''
@@ -184,6 +198,7 @@ const RegistrationForm = ({ setIsRegistered }) => {
                 />
                 <TextField
                   name="contact_email"
+                  id="contact_email"
                   label="Email"
                   helperText={`e.g. user@example.com. ${
                     errors.contact_email || ''
@@ -198,15 +213,6 @@ const RegistrationForm = ({ setIsRegistered }) => {
                     type: 'email',
                   }}
                 />
-              </Box>
-              <Box marginBottom={2}>
-                <Typography
-                  gutterBottom
-                  variant="body2"
-                  className={submitIsDisabled ? classes.error : ''}
-                >
-                  * All fields are required
-                </Typography>
               </Box>
               <Box>
                 {/* Generic error message until we finalize a way to handle errors */}

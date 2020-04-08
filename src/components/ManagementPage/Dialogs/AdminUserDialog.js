@@ -137,6 +137,7 @@ export const AdminUserDialog = ({
               <DialogContent>
                 <TextField
                   name="email"
+                  id="email"
                   label="Email"
                   helperText={`e.g. user@example.com. ${errors.email || ''}`}
                   onChange={handleChange}
