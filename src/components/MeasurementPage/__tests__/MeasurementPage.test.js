@@ -1,11 +1,13 @@
 import React from 'react'
-import { render, wait, waitForElement } from '@testing-library/react'
+import { render, wait } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MeasurementPage } from '../index'
 import { MemoryRouter } from 'react-router-dom'
 import * as temperaturesService from '../../../services/temperatures'
+import * as questionsService from '../../../services/questions'
 import { CoordinateContext } from '../../Shared/context/coordinateContext'
 import { UserContext } from '../../Shared/context/userContext'
+import { ENABLED } from '../../../constants'
 
 const defaultCoords = {
   longitude: 11.111,
@@ -23,8 +25,19 @@ const defaultUserState = {
 const renderComponent = (
   userState = defaultUserState,
   coords = defaultCoords
-) =>
-  render(
+) => {
+  const questions = [
+    { id: '1111', display_value: 'foo question', status: 'ENABLED' },
+    { id: '2222', display_value: 'bar question', status: 'ENABLED' },
+    { id: '3333', display_value: 'test question', status: 'ENABLED' },
+    { id: '4444', display_value: 'fizz question', status: 'ENABLED' },
+  ]
+
+  var getQuestionsSpy = jest
+    .spyOn(questionsService, 'getQuestions')
+    .mockResolvedValue(questions)
+
+  const utils = render(
     <UserContext.Provider value={[userState]}>
       <CoordinateContext.Provider value={[coords]}>
         <MeasurementPage />
@@ -33,15 +46,38 @@ const renderComponent = (
     { wrapper: MemoryRouter }
   )
 
-describe('MeasurementPage', () => {
-  afterEach(() => jest.clearAllMocks())
+  return {
+    ...utils,
+    getQuestionsSpy,
+    questions,
+  }
+}
 
-  it('renders', () => {
-    const { getByText, getByTestId } = renderComponent()
+describe('MeasurementPage', () => {
+  beforeAll(() => {
+    console.error = jest.fn()
+  })
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('renders', async () => {
+    const {
+      getByText,
+      getByTestId,
+      findByText,
+      getQuestionsSpy,
+    } = renderComponent()
+    expect(getQuestionsSpy).toHaveBeenCalledWith(ENABLED)
 
     getByText('Assessment Submission')
     getByText('My Test Organization')
     expect(getByTestId('submit-button')).toBeDisabled()
+
+    await findByText('foo question')
+    await findByText('bar question')
+    await findByText('test question')
+    await findByText('fizz question')
   })
 
   it('should enable the the submit button', () => {
@@ -65,8 +101,8 @@ describe('MeasurementPage', () => {
     expect(getByTestId('submit-button')).toBeDisabled()
   })
 
-  it('should submit the form', async () => {
-    const { getByTestId, getByText } = renderComponent()
+  it('should submit the form and reset values', async () => {
+    const { container, getByTestId, getByText, questions } = renderComponent()
     const getCurrentDate = () => new Date(Date.now()).toISOString()
 
     const submitMock = jest
@@ -75,20 +111,57 @@ describe('MeasurementPage', () => {
 
     Date.now = jest.fn(() => new Date('2020-04-06T07:00:00.000Z'))
 
+    await wait()
+
     userEvent.type(getByTestId('temperature-input'), '95')
+    userEvent.click(getByTestId('2222'))
+    userEvent.click(getByTestId('4444'))
     userEvent.click(getByTestId('submit-button'))
 
-    await wait(() =>
-      expect(submitMock).toHaveBeenCalledWith('foo', [
-        {
-          ...defaultCoords,
-          temperature: '95',
-          timestamp: getCurrentDate(),
-        },
-      ])
-    )
+    expect(submitMock).toHaveBeenCalledWith('foo', [
+      {
+        ...defaultCoords,
+        temperature: 95,
+        timestamp: getCurrentDate(),
+        question_answers: [
+          {
+            question: questions[0],
+            answer: false,
+          },
+          {
+            question: questions[1],
+            answer: true,
+          },
+          {
+            question: questions[2],
+            answer: false,
+          },
+          {
+            question: questions[3],
+            answer: true,
+          },
+        ],
+      },
+    ])
 
-    await waitForElement(() => getByText('Success! Entry submitted'))
+    await wait()
+
+    getByText('Success! Entry submitted')
+
+    // reset form values
+    expect(getByTestId('temperature-input').value).toBe('')
+    expect(
+      container.querySelector('[data-testid="1111-display-value"]').innerHTML
+    ).toBe('No')
+    expect(
+      container.querySelector('[data-testid="2222-display-value"]').innerHTML
+    ).toBe('No')
+    expect(
+      container.querySelector('[data-testid="3333-display-value"]').innerHTML
+    ).toBe('No')
+    expect(
+      container.querySelector('[data-testid="4444-display-value"]').innerHTML
+    ).toBe('No')
   })
 
   it('should show an error when the submit request fails', async () => {
@@ -97,8 +170,6 @@ describe('MeasurementPage', () => {
     jest
       .spyOn(temperaturesService, 'submitTemperatures')
       .mockRejectedValue(new Error('foo'))
-
-    console.error = jest.fn()
 
     userEvent.type(getByTestId('temperature-input'), '95')
     userEvent.click(getByTestId('submit-button'))

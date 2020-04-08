@@ -4,6 +4,7 @@ export const ROLE_USER = 'USER'
 
 export const DIRECTION_ASC = 'asc'
 export const DIRECTION_DESC = 'desc'
+export const ENABLED = 'ENABLED'
 
 export const APPROVAL_STATUSES = [
   { value: 'APPLIED', name: 'Applied' },

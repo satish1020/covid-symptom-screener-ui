@@ -22,7 +22,7 @@ const SwitchInput = ({ label, id, value, onChange }) => {
       </FormLabel>
       <div>
         <CustomSwitch
-          name={id}
+          id={id}
           checked={value}
           onChange={onChange}
           inputProps={{
@@ -30,7 +30,7 @@ const SwitchInput = ({ label, id, value, onChange }) => {
             'data-testid': id,
           }}
         />
-        <span data-test-id={`${id}-display-value`}>{value ? 'YES' : 'No'}</span>
+        <span data-testid={`${id}-display-value`}>{value ? 'YES' : 'No'}</span>
       </div>
     </Box>
   )

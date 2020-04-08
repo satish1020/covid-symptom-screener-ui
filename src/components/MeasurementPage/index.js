@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { CoordinateContext } from '../Shared/context/coordinateContext'
 import { UserContext } from '../Shared/context/userContext'
@@ -13,9 +13,18 @@ import {
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import PageTitle from '../Shared/components/PageTitle'
-// import SwitchInput from './SwitchInput'
+import SwitchInput from './SwitchInput'
 
 import { submitTemperatures } from '../../services/temperatures'
+import { getQuestions } from '../../services/questions'
+
+import { ENABLED } from '../../constants'
+
+const FORM_STATE = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  SUBMITTING: 'submitting',
+}
 
 const useStyles = makeStyles(({ spacing, buttonPrimary }) => ({
   input: {
@@ -45,36 +54,64 @@ const useStyles = makeStyles(({ spacing, buttonPrimary }) => ({
   },
 }))
 
-// const INITIAL_QUESTIONS_STATE = {
-//   fever: false,
-//   shortness_of_breath: false,
-//   muscle_aches: false,
-//   sore_throat: false,
-//   new_cough: false,
-// }
-
 function isInvalidTemperature(temp) {
   return temp < 95 || temp > 105
+}
+
+function mergeQuestionAnswers(questions, answers) {
+  return questions.map((q) => ({
+    question: q,
+    answer: answers[q.id],
+  }))
+}
+
+export default function resetQuestionsAndAnswers(questions) {
+  return questions.reduce((acc, curr) => {
+    acc[curr.id] = false
+    return acc
+  }, {})
 }
 
 export const MeasurementPage = () => {
   const classes = useStyles()
   const [temperature, setTemperature] = useState('')
   const [errorMessage, setErrorMessage] = useState()
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false)
-  // const [questions, setQuestions] = useState(INITIAL_QUESTIONS_STATE)
+  const [questions, setQuestions] = useState([])
+  const [questionsAndAnswers, setQuestionsAndAnswers] = useState()
   const [coords] = useContext(CoordinateContext)
   const [userState] = useContext(UserContext)
+  const [formState, setFormState] = useState(FORM_STATE.IDLE)
   const { organization } = userState
-  // const organization = JSON.parse(window.localStorage.getItem('organization'))
-  // const coords = JSON.parse(window.localStorage.getItem('coords'))
 
-  if (!Boolean(organization)) {
+  const fetchQuestions = async () => {
+    setFormState(FORM_STATE.LOADING)
+    const response = await getQuestions(ENABLED)
+
+    setQuestionsAndAnswers(resetQuestionsAndAnswers(response))
+    setQuestions(
+      response.map(({ id, display_value, status }) => ({
+        id,
+        display_value,
+        status,
+      }))
+    )
+    setFormState(FORM_STATE.IDLE)
+  }
+
+  const missingOrg = !Boolean(organization)
+  const missingCoords = coords?.latitude == null || coords?.longitude == null
+
+  useEffect(() => {
+    if (missingOrg || missingCoords) return
+    fetchQuestions()
+  }, [missingOrg, missingCoords])
+
+  if (missingOrg) {
     return <Redirect to="/authorization" />
   }
 
-  if (!coords?.latitude || !coords?.longitude) {
+  if (missingCoords) {
     return <Redirect to="/location" />
   }
 
@@ -96,37 +133,42 @@ export const MeasurementPage = () => {
     const { latitude, longitude } = coords
 
     try {
-      setIsSubmitting(true)
+      setFormState(FORM_STATE.SUBMITTING)
+
       const temperatures = [
         {
-          temperature,
+          temperature: Number(temperature),
           latitude,
           longitude,
+          question_answers: mergeQuestionAnswers(
+            questions,
+            questionsAndAnswers
+          ),
           timestamp: new Date(Date.now()).toISOString(),
         },
       ]
 
       await submitTemperatures(organization.authorization_code, temperatures)
       setTemperature('')
-      // setQuestions(INITIAL_QUESTIONS_STATE)
+      setQuestionsAndAnswers(resetQuestionsAndAnswers(questions))
       setSnackbarIsOpen(true)
-      setIsSubmitting(false)
     } catch (e) {
       setErrorMessage(e?.message ?? 'An error occurred')
-      console.error(e)
-      setIsSubmitting(false)
+    } finally {
+      setFormState(FORM_STATE.IDLE)
     }
   }
 
-  // function toggleSwitch(e) {
-  //   const { name } = e.target
-  // setQuestions((prevState) => ({
-  //   ...prevState,
-  //   [name]: !prevState[name],
-  // }))
-  // }
+  function toggleSwitch(e) {
+    const { id } = e.target
+    setQuestionsAndAnswers((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }))
+  }
 
-  const submitIsDisabled = isInvalidTemperature(temperature) || isSubmitting
+  const submitIsDisabled =
+    isInvalidTemperature(temperature) || formState === FORM_STATE.SUBMITTING
 
   return (
     <>
@@ -136,7 +178,7 @@ export const MeasurementPage = () => {
           Organization Name: <strong>{organization.org_name}</strong>
         </Typography>
       )}
-      <Box width="100%" height="100%">
+      <Box width="100%">
         <input
           className={classes.input}
           type="number"
@@ -150,36 +192,17 @@ export const MeasurementPage = () => {
         <Typography variant="h6" className={classes.questionsTitle}>
           In the last 7 days, have you had:
         </Typography>
-        {/* <SwitchInput
-          label="A fever of more than 100.4"
-          id="fever"
-          onChange={toggleSwitch}
-          value={questions.fever}
-        />
-        <SwitchInput
-          label="Shortness of breath"
-          id="shortness_of_breath"
-          onChange={toggleSwitch}
-          value={questions.shortness_of_breath}
-        />
-        <SwitchInput
-          label="Muscle Aches"
-          id="muscle_aches"
-          onChange={toggleSwitch}
-          value={questions.muscle_aches}
-        />
-        <SwitchInput
-          label="Sore throat"
-          id="sore_throat"
-          onChange={toggleSwitch}
-          value={questions.sore_throat}
-        />
-        <SwitchInput
-          label="A new cough"
-          id="new_cough"
-          onChange={toggleSwitch}
-          value={questions.new_cough}
-        /> */}
+        {formState !== FORM_STATE.LOADING &&
+          questions.length > 0 &&
+          questions.map(({ id, display_value }) => (
+            <SwitchInput
+              key={id}
+              label={display_value}
+              id={id}
+              onChange={toggleSwitch}
+              value={questionsAndAnswers[id]}
+            />
+          ))}
       </Box>
       <Box>
         {errorMessage && (
