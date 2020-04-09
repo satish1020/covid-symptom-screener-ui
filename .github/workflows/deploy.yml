@@ -35,9 +35,12 @@ jobs:
           echo "::set-env name=ENV::stg"
           echo "::set-env name=GKE_CLUSTER::cluster-stg"
           echo "::set-env name=GKE_ZONE_OR_REGION::$GKE_ZONE_STG"
-          echo "::set-env name=IMAGE_TAG::latest"
+
+          export IMAGE_TAG=latest
+          echo "::set-env name=IMAGE_TAG::$IMAGE_TAG"
           export IMAGE_PATH="$REGISTRY_HOSTNAME"/"$GCP_PROJECT_ID"/"$IMAGE":"$IMAGE_TAG"
           echo "::set-env name=IMAGE_PATH::$IMAGE_PATH"
+
           echo "::set-env name=REACT_APP_GOOGLE_MAPS_API_KEY::${{ secrets.MAPS_API_KEY_STG }}"
           echo "::set-env name=REACT_APP_GOOGLE_OAUTH_CLIENT_ID::${{ secrets.CLIENT_ID_STG }}"
           echo "::set-env name=REACT_APP_ENV::stage"
@@ -47,12 +50,16 @@ jobs:
           echo "::set-env name=ENV::prod"
           echo "::set-env name=GKE_CLUSTER::cluster-prod"
           echo "::set-env name=GKE_ZONE_OR_REGION::$GKE_ZONE_PROD"
-          echo "::set-env name=IMAGE_TAG::`echo ${GITHUB_REF} | cut -d / -f 3`"
+
+          export IMAGE_TAG=`echo ${GITHUB_REF} | cut -d / -f 3`
+          echo "::set-env name=IMAGE_TAG::$IMAGE_TAG"
           export IMAGE_PATH="$REGISTRY_HOSTNAME"/"$GCP_PROJECT_ID"/"$IMAGE":"$IMAGE_TAG"
           echo "::set-env name=IMAGE_PATH::$IMAGE_PATH"
+
           echo "::set-env name=REACT_APP_GOOGLE_MAPS_API_KEY::${{ secrets.MAPS_API_KEY_PROD }}"
           echo "::set-env name=REACT_APP_GOOGLE_OAUTH_CLIENT_ID::${{ secrets.CLIENT_ID_PROD }}"
           echo "::set-env name=REACT_APP_ENV::production"
+
       - name: Set up Node.js 12.x
         uses: actions/setup-node@v1
         with:
