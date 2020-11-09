@@ -46,10 +46,8 @@ function App() {
   const tokenId = window.localStorage.getItem(TOKEN_ID)
   const isLoggedIn = tokenId !== null && tokenId !== undefined
 
-  // eslint-disable-next-line no-unused-vars
   const classes = useStyles()
 
-  //TODO is logged in and is org set are different and route to different places
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

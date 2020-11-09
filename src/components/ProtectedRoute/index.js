@@ -38,7 +38,6 @@ export const ProtectedRoute = (props) => {
   }
 
   if (props.component === ManagementPage && !isRoleAdmin(userState.userRole)) {
-    // TODO send them here or to an unauthorized page?
     return <Redirect to="/authorization" />
   }
 

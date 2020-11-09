@@ -13,7 +13,6 @@ describe('AppHeader', () => {
   }
 
   it('removes token from storage on sign out', async () => {
-    // TODO can't seem to get the google button to execute the signout function in test.
     const { getByText } = render(
       <UserContext.Provider value={[userState, userActions]}>
         <AppHeader />

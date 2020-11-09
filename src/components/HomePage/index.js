@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-//TODO contact link needs a place with content
 export const HomePage = () => {
   const classes = useStyles()
   const [userState, userActions] = useContext(UserContext)
