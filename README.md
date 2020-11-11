@@ -2,7 +2,7 @@
 
 ## Appropriate Use and Disclaimer
 
-This project and code are presented as example only. It was produced as a point-in-time effort to help the state of the Minnesota, and is not in use at Target. This code is not production ready, and should be updated according to specific user concerns of those who wish to fork and use it.
+This project and code are presented as example only. It was produced as a point-in-time effort to help the state of Minnesota, and is not in use at Target. This code is not production ready, and should be updated according to specific user concerns of those who wish to fork and use it.
 
 Target provides this source as an example of a pro-bono effort, but provides no guarantee of it being secure, etc. and is not liable for any damages incurred.
 
